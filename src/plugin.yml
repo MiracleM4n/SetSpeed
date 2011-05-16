@@ -1,0 +1,14 @@
+name: SetSpeed
+main: net.D3GN.MiracleM4n.SetSpeed.SetSpeed
+version: 1.5.1
+website: 
+author: MiracleM4n
+description: Set Your Speed :O
+commands:
+    setspeed:
+        description: Set Speed
+        usage: |
+            /<command> [radius]
+            Example: /<command> View This
+            Example: /<command> 10 - sets your speed to 10x normal.
+            

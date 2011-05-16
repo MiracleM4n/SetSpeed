@@ -1,0 +1,23 @@
+#SetSpeed Configuration File, Enjoy!!
+
+#String(Text, Message) Values You Can Change.
+#Change The Output If Player Inputs A Non-Number While Using The /setspeed Command.
+NotNumb: That Is Not A Number
+#Change The Output If Player Inputs A Negative Value While Using The /setspeed Command.
+NegValue: Cant Use Negative Values
+#Change The Output If You Try To Use A Higher Speed Value Than You Are Allowed To While Using The /setspeed Command.
+TooHigh: Speed To High
+#Change The Output If No Wolves Are Found While Using The /setspeed Command.
+unKnownSpeed: Weird... Speed Not Working
+#Change The Output If Player Doesnt Have Permissions To Use The /setspeed Command.
+NoPerms:  You don't have permissions to use this
+#Change The Output If Wolves Are Teleported While Using The /setspeed Command.
+speedSet: Speed Set
+
+
+#Integer(Number) Values You Can Change.
+#Note That The Hard Set Max Value Is 500.
+#Change The Max Radius Admins/Ops(No Permissions) Can Use For The /setspeed Command.
+Max_Admin_Speed: 10
+#Change The Max Radius Mods/Non-Ops(No Permissions) Can Use For The /setspeed Command.
+Max_Mod_Speed: 5
