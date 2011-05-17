@@ -7,12 +7,19 @@ NotNumb: That Is Not A Number
 NegValue: Cant Use Negative Values
 #Change The Output If You Try To Use A Higher Speed Value Than You Are Allowed To While Using The /setspeed Command.
 TooHigh: Speed To High
-#Change The Output If No Wolves Are Found While Using The /setspeed Command.
-unKnownSpeed: Weird... Speed Not Working
+#Change The Output If An UnKnown Speed Is Found While Using The /setspeed Command.
+unKnownSpeed: Weird... Not Able To Set Speed
 #Change The Output If Player Doesnt Have Permissions To Use The /setspeed Command.
-NoPerms:  You don't have permissions to use this
-#Change The Output If Wolves Are Teleported While Using The /setspeed Command.
-speedSet: Speed Set
+NoPerms:  You Don't Have Permissions To Use This
+#Change The Output If Speed Is Set While Using The /setspeed Command.
+speedSet: Speed Set To
+#Change The Output If 0 Is Entered While Using The /setspeed Command.
+noInt: Cant Use 0
+#Change The Output If Command /speedon Is Used.
+speedOn: Speed is on
+#Change The Output If Command /speedoff Is Used.
+speedOff: Speed is off
+
 
 
 #Integer(Number) Values You Can Change.
@@ -21,3 +28,5 @@ speedSet: Speed Set
 Max_Admin_Speed: 10
 #Change The Max Radius Mods/Non-Ops(No Permissions) Can Use For The /setspeed Command.
 Max_Mod_Speed: 5
+#Change The Item ID For The Item That Automatically Fires The /speedon or /speedoff Commands.
+Speed_ItemNumber: 50

@@ -13,8 +13,6 @@ public class SSCommandExecutor implements CommandExecutor {
     public SSCommandExecutor(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
-    public Integer noSpeedValue = 0;
-    private Integer hardMaxSpeed = 500;
     
     public boolean onCommand (CommandSender sender, Command command, String label, String[] args) {
     	if (!(sender instanceof Player)) {
@@ -35,12 +33,17 @@ public class SSCommandExecutor implements CommandExecutor {
 				}
 				if ((SetSpeed.Permissions == null && player.isOp()) || 
 						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.admin"))) {
-					if ((plugin.speed) > hardMaxSpeed) {
+					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
 						(plugin.speed) = 1;
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 						return true; 
 					}
-					if ((plugin.speed) < noSpeedValue) {
+					if ((plugin.speed) == (plugin.noSpeedValue)) {
+						(plugin.speed) = 1;
+						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noInterger) + ".");
+						return true; 
+					}
+					if ((plugin.speed) < (plugin.noSpeedValue)) {
 						(plugin.speed) = 1;
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
 						return true; 
@@ -49,7 +52,7 @@ public class SSCommandExecutor implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
 						return true;
 					}
-					if((plugin.speed) > plugin.maxAdminSpeed) {
+					if((plugin.speed) > (plugin.maxAdminSpeed)) {
 						(plugin.speed) = 1;
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 						return true;
@@ -60,21 +63,21 @@ public class SSCommandExecutor implements CommandExecutor {
 					}
 				} else if ((SetSpeed.Permissions == null && (player.isOp() == false)) || 
 						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.mod"))) {
-					if ((plugin.speed) > hardMaxSpeed) {
+					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
 						(plugin.speed) = 1;
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 						return true; 
 					}
-					if ((plugin.speed) < noSpeedValue) {
+					if ((plugin.speed) < (plugin.noSpeedValue)) {
 						(plugin.speed) = 1;
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
 						return true; 
 					}
-					if((plugin.speed) <= plugin.maxSpeed) {
+					if((plugin.speed) <= (plugin.maxSpeed)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
 						return true;
 					}
-					if((plugin.speed) > plugin.maxSpeed) {
+					if((plugin.speed) > (plugin.maxSpeed)) {
 						(plugin.speed) = 1;
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 						return true;
@@ -91,8 +94,44 @@ public class SSCommandExecutor implements CommandExecutor {
 			} else {
 				return true;
 			}
-		}
-    	return true; 
+		} else if (label.equalsIgnoreCase("speedoff")) {
+    		if(args.length == 0) {
+    			if ((SetSpeed.Permissions == null && player.isOp()) || 
+    					(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.admin"))) {
+    				plugin.isSpeedOn = false;
+    				player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
+    				return true;
+    			} else if ((SetSpeed.Permissions == null && (player.isOp() == false)) || 
+    					(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.mod"))) {
+    				plugin.isSpeedOn = false;
+    				player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
+    				return true;
+    			} else {
+    				(plugin.speed) = 1;
+    				player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
+    				return true;
+    			}
+    		}
+    	} else if (label.equalsIgnoreCase("speedon")) {
+    		if(args.length == 0) {
+    			if ((SetSpeed.Permissions == null && player.isOp()) || 
+    					(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.admin"))) {
+    				plugin.isSpeedOn = true;
+    				player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOn) + ".");
+    				return true;
+    			} else if ((SetSpeed.Permissions == null && (player.isOp() == false)) || 
+    					(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.mod"))) {
+    				plugin.isSpeedOn = true;
+    				player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOn) + ".");
+    				return true;
+    			} else {
+    				(plugin.speed) = 1;
+    				player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
+    				return true;
+    			}
+    		}
+    	}
+    	return true;
 	}
 }
 

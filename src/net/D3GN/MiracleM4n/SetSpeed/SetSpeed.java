@@ -24,23 +24,42 @@ public class SetSpeed extends JavaPlugin {
 	SSPlayerListener playerListener = new SSPlayerListener(this);
 	SSCommandExecutor commandexecutor = new SSCommandExecutor(this);
 	
+	
+	//Changeable
+	//Strings
+	public String notNumber = "That Is Not A Number";
+	public String noInterger = "Cant Use 0";
+	public String negativeInterger = "Cant Use Negative Values";
+	public String tooHigh = "Speed Too High";
+	public String unKnown = "Weird... Not Able To Set Speed";
+	public String noPermissions = "You Don't Have Permissions To Use This";
+	public String speedSetMessage = "Speed Set To";
+    public String speedOff = "Speed is off";
+    public String speedOn = "Speed is on";
+	
+	//Integers
+	public Integer speedItem = 50;
+	public Integer maxSpeed = 5;
+	public Integer maxAdminSpeed = 10;
+	
+	
+	
+	//Non-Changeable
+	//Booleans
+    public Boolean isSpeedOn = false;
+    public Boolean noMove = false;
 	//Hashes
 	public static HashMap<Player, Double> players = new HashMap<Player, Double>();
-	
 	//Doubles
 	public double speed = 1;
 	
-	//Strings
-	public String notNumber = "That is not a number";
-	public String negativeInterger = "Cant Use Negative Values";
-	public String tooHigh = "Speed Too High";
-	public String unKnown = "Weird... Not Able";
-	public String noPermissions = "You don't have permissions to use this";
-	public String speedSet = ("Speed Set To " + (speed));
-	
 	//Integers
-	public Integer maxSpeed = 5;
-	public Integer maxAdminSpeed = 10;
+    public Integer noSpeedValue = 0;
+    public Integer hardMaxSpeed = 500;
+    
+	//Strings
+	public String speedSet = ((speedSetMessage) + " " + (speed));
+	
 	    
 	public static PermissionHandler Permissions;
 	
@@ -48,7 +67,10 @@ public class SetSpeed extends JavaPlugin {
 		PluginDescriptionFile pdfFile = getDescription();
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Highest, this);
 		getCommand("setspeed").setExecutor(commandexecutor);
+		getCommand("speedoff").setExecutor(commandexecutor);
+		getCommand("speedon").setExecutor(commandexecutor);
 	        
 		setupPermissions();
 		
@@ -69,36 +91,35 @@ public class SetSpeed extends JavaPlugin {
 	private void extractFile(String name) {
 		PluginDescriptionFile pdfFile = getDescription();
 		File actual = new File(getDataFolder(), name);
-			if (!actual.exists()) {
-				InputStream input = getClass().getResourceAsStream("/Config/" + name);
-				if (input != null) {
-					FileOutputStream output = null;
-					try
-					{
-						output = new FileOutputStream(actual);
-						byte[] buf = new byte[8192];
-						int length = 0;
-
-						while ((length = input.read(buf)) > 0) {
-							output.write(buf, 0, length);
-						}
-						System.out.println("[" + (pdfFile.getName()) + "]" + "Default file written: " + name);
+		if (!actual.exists()) {
+			InputStream input = getClass().getResourceAsStream("/Config/" + name);
+			if (input != null) {
+				FileOutputStream output = null;
+				try
+				{
+					output = new FileOutputStream(actual);
+					byte[] buf = new byte[8192];
+					int length = 0;
+					while ((length = input.read(buf)) > 0) {
+						output.write(buf, 0, length);
+					}
+					System.out.println("[" + (pdfFile.getName()) + "]" + "Default file written: " + name);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if (input != null)
+							input.close();
 					} catch (Exception e) {
-						e.printStackTrace();
-					} finally {
-						try {
-							if (input != null)
-								input.close();
-						} catch (Exception e) {
-						} try {
-							if (output != null)
-								output.close();
-						} catch (Exception e) {
-						}
+					} try {
+						if (output != null)
+							output.close();
+					} catch (Exception e) {
 					}
 				}
 			}
 		}
+	}
 	
 	public void readConfig() {
 		Configuration config = new Configuration(new File(getDataFolder(), "config.yml"));
@@ -111,10 +132,14 @@ public class SetSpeed extends JavaPlugin {
 		unKnown  = config.getString("unKnownSpeed", unKnown);
 		noPermissions  = config.getString("NoPerms", noPermissions);
 		speedSet  = config.getString("speedSet", speedSet);
+        noInterger = config.getString("noInt", noInterger);
+        speedOff = config.getString("speedOff", speedOff);
+        speedOn = config.getString("speedOn", speedOn);
 		
 		//Intergers
 		maxSpeed = config.getInt("Max_Mod_Speed", maxSpeed);
 		maxAdminSpeed = config.getInt("Max_Admin_Speed", maxAdminSpeed);
+        speedItem = config.getInt("Speed_ItemNumber", speedItem);
 	}
 	    
 	public void onDisable() {
