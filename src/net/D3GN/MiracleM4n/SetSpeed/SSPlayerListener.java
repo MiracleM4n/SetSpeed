@@ -21,14 +21,17 @@ public class SSPlayerListener extends PlayerListener {
 	public void onPlayerMove(PlayerMoveEvent event) {
     	Player player = event.getPlayer();
     	if (player.isSneaking()) {
-    		if (plugin.players.get(player) != null)
-    		{
+    		if (plugin.players.get(player) != null) {
     			int material = player.getWorld().getBlockAt(player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()).getTypeId();
     			if (material != 0 && material != 8 && material != 9 && material != 50 && material != 65)
     			{
-    				Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
-    				player.setVelocity(dir);
-    				
+    				if (plugin.defaSpeed) {
+    					Vector dir = player.getLocation().getDirection().multiply(((plugin.defSpeed)*(0.3))/2).setY(0);
+        				player.setVelocity(dir);
+    				} else {
+        				Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
+        				player.setVelocity(dir);
+    				}
     			}
     		} else  {
     			plugin.players.put(player, new Double(100));
@@ -40,9 +43,13 @@ public class SSPlayerListener extends PlayerListener {
         			int material = player.getWorld().getBlockAt(player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()).getTypeId();
         			if (material != 0 && material != 8 && material != 9 && material != 50 && material != 65)
         			{
-        				Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
-        				player.setVelocity(dir);
-        				
+        				if (plugin.defaSpeed) {
+        					Vector dir = player.getLocation().getDirection().multiply(((plugin.defSpeed)*(0.3))/2).setY(0);
+            				player.setVelocity(dir);
+        				} else {
+            				Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
+            				player.setVelocity(dir);
+        				}
         			}
         		} else  {
         			plugin.players.put(player, new Double(100));
@@ -51,42 +58,60 @@ public class SSPlayerListener extends PlayerListener {
     			return;
     		}
     	}
+    	if ((player.getInventory().getBoots().getTypeId() == (plugin.bootItem)) ||
+    			(player.getInventory().getLeggings().getTypeId() == (plugin.legItem)) ||
+    			(player.getInventory().getChestplate().getTypeId() == (plugin.chestItem)) ||
+    			(player.getInventory().getHelmet().getTypeId() == (plugin.helmItem))) {
+    		if (plugin.isSpeedOn) {
+    			return;
+    		} else if (plugin.isSpeedOn == false) {
+    			Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
+    			player.setVelocity(dir);
+    			plugin.isSpeedOn = true;
+    		}
+    	} else {
+    		plugin.isSpeedOn = false;
+    	}
+    	/*
     	if (plugin.noMove) {
     		event.setTo(event.getFrom());
 		}
+		*/
     }
     
 	public void onPlayerInteract(PlayerInteractEvent event) {
     	Player player = event.getPlayer();
     	Action action = event.getAction();
     	
-    	if ((plugin.speed) >= 2) {
+    	if ((plugin.speed) != 1) {
         	if (plugin.isSpeedOn) {
             	if (((action == Action.LEFT_CLICK_AIR) || 
             			(action == Action.LEFT_CLICK_BLOCK)) && 
             			(player.getItemInHand().getTypeId() == (plugin.speedItem))) {
             		player.performCommand("speedoff");
             	}
-        	} else if (((action == Action.LEFT_CLICK_AIR) || 
+        	} else if (plugin.isSpeedOn == false) { 
+        		if (((action == Action.LEFT_CLICK_AIR) || 
         			(action == Action.LEFT_CLICK_BLOCK)) && 
         			(player.getItemInHand().getTypeId() == (plugin.speedItem))) {
         		player.performCommand("speedon");
+        		}
         	}
-    	} else {
-    		return;
+        } else {
+        	return;
     	}
     }
 	
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
-		if ((plugin.speed) >= 2) {
+		if ((plugin.speed) != 1) {
 			player.performCommand("speedoff");
 		}
 	}
 	
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		if ((plugin.speed) >= 2) {
+		if ((plugin.speed) != 1) {
 			player.performCommand("speedoff");
 		}
 	}

@@ -22,6 +22,7 @@ public class SetSpeed extends JavaPlugin {
 	protected final static Logger logger = Logger.getLogger("Minecraft");
 	public static final String name = "InvinciWolf";
 	SSPlayerListener playerListener = new SSPlayerListener(this);
+	SSEntityListener entityListener = new SSEntityListener(this);
 	SSCommandExecutor commandexecutor = new SSCommandExecutor(this);
 	
 	
@@ -36,29 +37,46 @@ public class SetSpeed extends JavaPlugin {
 	public String speedSetMessage = "Speed Set To";
     public String speedOff = "Speed is off";
     public String speedOn = "Speed is on";
+    public String speedReset = "Speed reset";
+    public String noSpeedSet = "No Speed value set";
 	
 	//Integers
+    public Integer bootItem = 317;
+    public Integer legItem = 316;
+    public Integer chestItem = 315;
+    public Integer helmItem = 314;
 	public Integer speedItem = 50;
 	public Integer maxSpeed = 5;
 	public Integer maxAdminSpeed = 10;
+	
+	//Booleans
+	public Boolean defaSpeed = false;
+	
+	//Doubles
+    public double defSpeed = 1.8;
 	
 	
 	
 	//Non-Changeable
 	//Booleans
     public Boolean isSpeedOn = false;
-    public Boolean noMove = false;
-	//Hashes
+    //public Boolean noMove = false;
+	
+    //Hashes
 	public static HashMap<Player, Double> players = new HashMap<Player, Double>();
+	
 	//Doubles
 	public double speed = 1;
+	public double speedPerm = 1;
 	
 	//Integers
-    public Integer noSpeedValue = 0;
-    public Integer hardMaxSpeed = 500;
+	public int speedInt = (int) speed;
+    public int noSpeedValue = 0;
+    public int hardMaxSpeed = 500;
     
 	//Strings
-	public String speedSet = ((speedSetMessage) + " " + (speed));
+	public String speedSet = ((speedSetMessage) + " " + (speedInt));
+	String speedPermValue = "setspeed." + (speedPerm);
 	
 	    
 	public static PermissionHandler Permissions;
@@ -68,6 +86,9 @@ public class SetSpeed extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.Highest, this);
 		getCommand("setspeed").setExecutor(commandexecutor);
 		getCommand("speedoff").setExecutor(commandexecutor);
 		getCommand("speedon").setExecutor(commandexecutor);
@@ -127,24 +148,36 @@ public class SetSpeed extends JavaPlugin {
 		
 		//Strings
 		notNumber  = config.getString("NotNumb", notNumber);
+        noInterger = config.getString("noInt", noInterger);
 		negativeInterger  = config.getString("NegValue", negativeInterger);
 		tooHigh  = config.getString("TooHigh", tooHigh);
 		unKnown  = config.getString("unKnownSpeed", unKnown);
 		noPermissions  = config.getString("NoPerms", noPermissions);
 		speedSet  = config.getString("speedSet", speedSet);
-        noInterger = config.getString("noInt", noInterger);
         speedOff = config.getString("speedOff", speedOff);
         speedOn = config.getString("speedOn", speedOn);
-		
+		speedReset = config.getString("speedReset", speedReset);
+        noSpeedSet = config.getString("noSpeedSet", noSpeedSet);
+        
 		//Intergers
 		maxSpeed = config.getInt("Max_Mod_Speed", maxSpeed);
 		maxAdminSpeed = config.getInt("Max_Admin_Speed", maxAdminSpeed);
         speedItem = config.getInt("Speed_ItemNumber", speedItem);
+        bootItem = config.getInt("Boot_ItemNumber", bootItem);
+        legItem = config.getInt("Leg_ItemNumber", legItem);
+        chestItem = config.getInt("Chest_ItemNumber", chestItem);
+        helmItem = config.getInt("Head_ItemNumber", helmItem);
+        
+        //Booleans
+        defaSpeed = config.getBoolean("DefSpeed", defaSpeed);
+        
+        //Doubles
+        defSpeed = config.getDouble("Default_Speed", defSpeed);
 	}
 	    
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = getDescription();
-		System.out.println("[InvinciWolf]" + " version " + 
+		System.out.println("[" + (pdfFile.getName()) + "]" + " version " + 
 				pdfFile.getVersion() + " is disabled!");
 	}
 	   	

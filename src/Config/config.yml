@@ -1,32 +1,54 @@
 #SetSpeed Configuration File, Enjoy!!
 
 #String(Text, Message) Values You Can Change.
-#Change The Output If Player Inputs A Non-Number While Using The /setspeed Command.
+#Changes The Output If Player Inputs A Non-Number While Using The /setspeed Command.
 NotNumb: That Is Not A Number
-#Change The Output If Player Inputs A Negative Value While Using The /setspeed Command.
+#Changes The Output If Player Inputs A Negative Value While Using The /setspeed Command.
 NegValue: Cant Use Negative Values
-#Change The Output If You Try To Use A Higher Speed Value Than You Are Allowed To While Using The /setspeed Command.
+#Changes The Output If You Try To Use A Higher Speed Value Than You Are Allowed To While Using The /setspeed Command.
 TooHigh: Speed To High
-#Change The Output If An UnKnown Speed Is Found While Using The /setspeed Command.
+#Changes The Output If An UnKnown Speed Is Found While Using The /setspeed Command.
 unKnownSpeed: Weird... Not Able To Set Speed
-#Change The Output If Player Doesnt Have Permissions To Use The /setspeed Command.
+#Changes The Output If Player Doesnt Have Permissions To Use The /setspeed Command.
 NoPerms:  You Don't Have Permissions To Use This
-#Change The Output If Speed Is Set While Using The /setspeed Command.
+#Changes The Output If Speed Is Set While Using The /setspeed Command.
 speedSet: Speed Set To
-#Change The Output If 0 Is Entered While Using The /setspeed Command.
+#Changes The Output If 0 Is Entered While Using The /setspeed Command.
 noInt: Cant Use 0
-#Change The Output If Command /speedon Is Used.
+#Changes The Output If Command /speedon Is Used.
 speedOn: Speed is on
-#Change The Output If Command /speedoff Is Used.
+#Changes The Output If Command /speedoff Is Used.
 speedOff: Speed is off
+#Changes The Output If You Try /speedon And No Speed Is Set.
+noSpeedSet: No Speed value set
+#Changes The Output If Speed Is Reset.
+speedReset: Speed reset
 
 
 
 #Integer(Number) Values You Can Change.
 #Note That The Hard Set Max Value Is 500.
-#Change The Max Radius Admins/Ops(No Permissions) Can Use For The /setspeed Command.
+#Changes The Max Radius Admins/Ops(No Permissions) Can Use For The /setspeed Command.
 Max_Admin_Speed: 10
-#Change The Max Radius Mods/Non-Ops(No Permissions) Can Use For The /setspeed Command.
+#Changes The Max Radius Mods/Non-Ops(No Permissions) Can Use For The /setspeed Command.
 Max_Mod_Speed: 5
-#Change The Item ID For The Item That Automatically Fires The /speedon or /speedoff Commands.
+#Changes The Item ID For The Item That Automatically Fires The /speedon or /speedoff Commands.
 Speed_ItemNumber: 50
+#Changes The Boot Item ID For The Item That Automatically Fires The /speedon Command.
+Boot_ItemNumber: 317
+#Changes The Leg Item ID For The Item That Automatically Fires The /speedon Command.
+Leg_ItemNumber: 316
+#Changes The Chest Item ID For The Item That Automatically Fires The /speedon Command.
+Chest_ItemNumber: 315
+#Changes The Helmet Item ID For The Item That Automatically Fires The /speedon Command.
+Helm_ItemNumber: 314
+
+
+#Double(Numbers With A Decimal) Values You Can Change.
+#Changes The Default Speed Players Move When Crouching. (1.8 Is 180% Normal Crouch Speed.)
+Default_Speed: 1.8
+
+
+#Boolean(True/False) Values You Can Change.
+#Whether Modified Default Speed Is On Or Off (Crouching Only).
+DefSpeed: true
