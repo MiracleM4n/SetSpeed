@@ -64,7 +64,8 @@ public class SetSpeed extends JavaPlugin {
 	//public Boolean noMove = false;
 	
 	//Hashes
-	public static HashMap<Player, Double> players = new HashMap<Player, Double>();
+	public HashMap<Player, Double> players = new HashMap<Player, Double>();
+
 	
 	//Doubles
 	public double speed = 1;
