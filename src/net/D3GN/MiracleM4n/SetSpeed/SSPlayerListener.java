@@ -3,10 +3,12 @@ package net.D3GN.MiracleM4n.SetSpeed;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.util.Vector;
 
 public class SSPlayerListener extends PlayerListener {
@@ -21,20 +23,24 @@ public class SSPlayerListener extends PlayerListener {
 	public void onPlayerMove(PlayerMoveEvent event) {
     	Player player = event.getPlayer();
     	if (player.isSneaking()) {
-    		if (plugin.players.get(player) != null) {
-    			int material = player.getWorld().getBlockAt(player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()).getTypeId();
-    			if (material != 0 && material != 8 && material != 9 && material != 50 && material != 65)
-    			{
-    				if (plugin.defaSpeed) {
-    					Vector dir = player.getLocation().getDirection().multiply(((plugin.defSpeed)*(0.3))/2).setY(0);
-        				player.setVelocity(dir);
-    				} else {
-        				Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
-        				player.setVelocity(dir);
+    		if (plugin.sneakAble == true) {
+    			if (plugin.players.get(player) != null) {
+    				int material = player.getWorld().getBlockAt(player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()).getTypeId();
+    				if (material != 0 && material != 8 && material != 9 && material != 50 && material != 65)
+    				{
+    					if (plugin.defaSpeed) {
+    						Vector dir = player.getLocation().getDirection().multiply(((plugin.defSpeed)*(0.3))/2).setY(0);
+    						player.setVelocity(dir);
+    					} else {
+    						Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
+    						player.setVelocity(dir);
+    					}
     				}
+    			} else  {
+    				plugin.players.put(player, new Double(100));
     			}
-    		} else  {
-    			plugin.players.put(player, new Double(100));
+    		} else {
+    			return;
     		}
     	} else if (!(player.isSneaking())) {
     		if (plugin.isSpeedOn) {
@@ -44,10 +50,10 @@ public class SSPlayerListener extends PlayerListener {
         			if (material != 0 && material != 8 && material != 9 && material != 50 && material != 65)
         			{
         				if (plugin.defaSpeed) {
-        					Vector dir = player.getLocation().getDirection().multiply(((plugin.defSpeed)*(0.3))/2).setY(0);
+        					Vector dir = player.getLocation().getDirection().multiply(((plugin.defSpeed)*(0.3))/2).setY(0.1);
             				player.setVelocity(dir);
         				} else {
-            				Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
+            				Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0.1);
             				player.setVelocity(dir);
         				}
         			}
@@ -58,25 +64,21 @@ public class SSPlayerListener extends PlayerListener {
     			return;
     		}
     	}
-    	if ((player.getInventory().getBoots().getTypeId() == (plugin.bootItem)) ||
-    			(player.getInventory().getLeggings().getTypeId() == (plugin.legItem)) ||
-    			(player.getInventory().getChestplate().getTypeId() == (plugin.chestItem)) ||
-    			(player.getInventory().getHelmet().getTypeId() == (plugin.helmItem))) {
-    		if (plugin.isSpeedOn) {
-    			return;
-    		} else if (plugin.isSpeedOn == false) {
-    			Vector dir = player.getLocation().getDirection().multiply(((plugin.speed)*(0.3))/2).setY(0);
-    			player.setVelocity(dir);
-    			plugin.isSpeedOn = true;
+    	if ((plugin.speed) != 1) {
+    		if ((player.getInventory().getBoots().getTypeId() == (plugin.bootItem)) ||
+    				(player.getInventory().getLeggings().getTypeId() == (plugin.legItem)) ||
+    				(player.getInventory().getChestplate().getTypeId() == (plugin.chestItem)) ||
+    				(player.getInventory().getHelmet().getTypeId() == (plugin.helmItem))) {
+    			if (plugin.isSpeedOn == false) {
+    				player.performCommand("speedon");
+    				plugin.isSpeedOn = true;
+    			} else {
+    				return;
+    			} 
     		}
     	} else {
-    		plugin.isSpeedOn = false;
+    		return;
     	}
-    	/*
-    	if (plugin.noMove) {
-    		event.setTo(event.getFrom());
-		}
-		*/
     }
     
 	public void onPlayerInteract(PlayerInteractEvent event) {
@@ -113,6 +115,26 @@ public class SSPlayerListener extends PlayerListener {
 		Player player = event.getPlayer();
 		if ((plugin.speed) != 1) {
 			player.performCommand("speedoff");
+		}
+	}
+	
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		for(int i = 0; i < 501; i++) {
+			if ((SetSpeed.Permissions == null && player.isOp()) || 
+					(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, ("setspeed.perm." + i)))) {
+				(plugin.speed) = (i);
+			}
+		}
+	}
+	
+	public void onVehicleExit(VehicleExitEvent event) {
+		Player player = (Player) event.getExited();
+		for(int i = 0; i < 501; i++) {
+			if ((SetSpeed.Permissions == null && player.isOp()) || 
+					(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, ("setspeed.perm." + i)))) {
+				(plugin.speed) = (i);
+			}
 		}
 	}
 }

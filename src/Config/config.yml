@@ -51,4 +51,6 @@ Default_Speed: 1.8
 
 #Boolean(True/False) Values You Can Change.
 #Whether Modified Default Speed Is On Or Off (Crouching Only).
-DefSpeed: true
+DefSpeed: false
+#Whether Sneak Speed Is Enabled Or Not
+Sneak_Enabled: true

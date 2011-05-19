@@ -20,7 +20,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class SetSpeed extends JavaPlugin {
 
 	protected final static Logger logger = Logger.getLogger("Minecraft");
-	public static final String name = "InvinciWolf";
+	public static final String name = "SetSpeed";
 	SSPlayerListener playerListener = new SSPlayerListener(this);
 	SSEntityListener entityListener = new SSEntityListener(this);
 	SSCommandExecutor commandexecutor = new SSCommandExecutor(this);
@@ -35,34 +35,35 @@ public class SetSpeed extends JavaPlugin {
 	public String unKnown = "Weird... Not Able To Set Speed";
 	public String noPermissions = "You Don't Have Permissions To Use This";
 	public String speedSetMessage = "Speed Set To";
-    public String speedOff = "Speed is off";
-    public String speedOn = "Speed is on";
-    public String speedReset = "Speed reset";
-    public String noSpeedSet = "No Speed value set";
+	public String speedOff = "Speed is off";
+	public String speedOn = "Speed is on";
+	public String speedReset = "Speed reset";
+	public String noSpeedSet = "No Speed value set";
 	
 	//Integers
-    public Integer bootItem = 317;
-    public Integer legItem = 316;
-    public Integer chestItem = 315;
-    public Integer helmItem = 314;
+	public Integer bootItem = 317;
+	public Integer legItem = 316;
+	public Integer chestItem = 315;
+	public Integer helmItem = 314;
 	public Integer speedItem = 50;
 	public Integer maxSpeed = 5;
 	public Integer maxAdminSpeed = 10;
 	
 	//Booleans
 	public Boolean defaSpeed = false;
+	public Boolean sneakAble = true;
 	
 	//Doubles
-    public double defSpeed = 1.8;
+	public double defSpeed = 1.8;
 	
 	
 	
 	//Non-Changeable
 	//Booleans
-    public Boolean isSpeedOn = false;
-    //public Boolean noMove = false;
+	public Boolean isSpeedOn = false;
+	//public Boolean noMove = false;
 	
-    //Hashes
+	//Hashes
 	public static HashMap<Player, Double> players = new HashMap<Player, Double>();
 	
 	//Doubles
@@ -71,12 +72,14 @@ public class SetSpeed extends JavaPlugin {
 	
 	//Integers
 	public int speedInt = (int) speed;
-    public int noSpeedValue = 0;
-    public int hardMaxSpeed = 500;
+	public int noSpeedValue = 0;
+	public int hardMaxSpeed = 500;
+	public int permSpeed = 1;
     
 	//Strings
 	public String speedSet = ((speedSetMessage) + " " + (speedInt));
-	String speedPermValue = "setspeed." + (speedPerm);
+	public String speedPermValue = "setspeed." + (speedPerm);
+	public String permSpeedValue = "setspeed.perm." + (permSpeed);
 	
 	    
 	public static PermissionHandler Permissions;
@@ -88,6 +91,8 @@ public class SetSpeed extends JavaPlugin {
 		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.VEHICLE_EXIT, playerListener, Event.Priority.Highest, this);
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.Highest, this);
 		getCommand("setspeed").setExecutor(commandexecutor);
 		getCommand("speedoff").setExecutor(commandexecutor);
@@ -170,6 +175,7 @@ public class SetSpeed extends JavaPlugin {
         
         //Booleans
         defaSpeed = config.getBoolean("DefSpeed", defaSpeed);
+        sneakAble = config.getBoolean("Sneak_Enabled", sneakAble);
         
         //Doubles
         defSpeed = config.getDouble("Default_Speed", defSpeed);
@@ -181,8 +187,7 @@ public class SetSpeed extends JavaPlugin {
 				pdfFile.getVersion() + " is disabled!");
 	}
 	   	
-	private void setupPermissions() 
-	{
+	private void setupPermissions() {
 		Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
 			
 		if (SetSpeed.Permissions == null) {

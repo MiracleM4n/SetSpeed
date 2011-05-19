@@ -34,9 +34,14 @@ public class SSCommandExecutor implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.notNumber) + ".");
 				    return true;
 				}
-				if ((plugin.speed) == (1)) {
-					plugin.speed = 1;
-					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
+				if (((plugin.speed) == (1))) {
+					if ((plugin.speed) != 1) {
+						plugin.speed = 1;
+						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
+						return true;
+					} else {
+						return true;
+					}
 				}
 				if ((SetSpeed.Permissions == null && player.isOp()) || 
 						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.admin"))) {
