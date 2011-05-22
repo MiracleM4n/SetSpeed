@@ -48,6 +48,8 @@ public class SetSpeed extends JavaPlugin {
 	public Integer speedItem = 50;
 	public Integer maxSpeed = 5;
 	public Integer maxAdminSpeed = 10;
+	public Integer maxOtherSpeed = 10;
+	public Integer maxWorldSpeed = 10;
 	
 	//Booleans
 	public Boolean defaSpeed = false;
@@ -60,12 +62,11 @@ public class SetSpeed extends JavaPlugin {
 	
 	//Non-Changeable
 	//Booleans
-	public Boolean isSpeedOn = false;
 	//public Boolean noMove = false;
 	
 	//Hashes
 	public HashMap<Player, Double> players = new HashMap<Player, Double>();
-
+	public HashMap<Player, Boolean> isSpeedOn = new HashMap<Player, Boolean>();
 	
 	//Doubles
 	public double speed = 1;
@@ -78,6 +79,9 @@ public class SetSpeed extends JavaPlugin {
 	public int permSpeed = 1;
     
 	//Strings
+	public String getWorld = "";
+	public String ssWorld = "-world";
+	public String playerName = "";
 	public String speedSet = ((speedSetMessage) + " " + (speedInt));
 	public String speedPermValue = "setspeed." + (speedPerm);
 	public String permSpeedValue = "setspeed.perm." + (permSpeed);
@@ -154,32 +158,34 @@ public class SetSpeed extends JavaPlugin {
 		
 		//Strings
 		notNumber  = config.getString("NotNumb", notNumber);
-        noInterger = config.getString("noInt", noInterger);
+		noInterger = config.getString("noInt", noInterger);
 		negativeInterger  = config.getString("NegValue", negativeInterger);
 		tooHigh  = config.getString("TooHigh", tooHigh);
 		unKnown  = config.getString("unKnownSpeed", unKnown);
 		noPermissions  = config.getString("NoPerms", noPermissions);
 		speedSet  = config.getString("speedSet", speedSet);
-        speedOff = config.getString("speedOff", speedOff);
-        speedOn = config.getString("speedOn", speedOn);
+		speedOff = config.getString("speedOff", speedOff);
+		speedOn = config.getString("speedOn", speedOn);
 		speedReset = config.getString("speedReset", speedReset);
-        noSpeedSet = config.getString("noSpeedSet", noSpeedSet);
+		noSpeedSet = config.getString("noSpeedSet", noSpeedSet);
         
 		//Intergers
 		maxSpeed = config.getInt("Max_Mod_Speed", maxSpeed);
 		maxAdminSpeed = config.getInt("Max_Admin_Speed", maxAdminSpeed);
-        speedItem = config.getInt("Speed_ItemNumber", speedItem);
-        bootItem = config.getInt("Boot_ItemNumber", bootItem);
-        legItem = config.getInt("Leg_ItemNumber", legItem);
-        chestItem = config.getInt("Chest_ItemNumber", chestItem);
-        helmItem = config.getInt("Head_ItemNumber", helmItem);
+		maxOtherSpeed = config.getInt("Max_SetOther_Speed", maxOtherSpeed);
+		maxWorldSpeed = config.getInt("Max_SetWorld_Speed", maxWorldSpeed);
+		speedItem = config.getInt("Speed_ItemNumber", speedItem);
+		bootItem = config.getInt("Boot_ItemNumber", bootItem);
+		legItem = config.getInt("Leg_ItemNumber", legItem);
+		chestItem = config.getInt("Chest_ItemNumber", chestItem);
+		helmItem = config.getInt("Head_ItemNumber", helmItem);
         
-        //Booleans
-        defaSpeed = config.getBoolean("DefSpeed", defaSpeed);
-        sneakAble = config.getBoolean("Sneak_Enabled", sneakAble);
+		//Booleans
+		defaSpeed = config.getBoolean("DefSpeed", defaSpeed);
+		sneakAble = config.getBoolean("Sneak_Enabled", sneakAble);
         
-        //Doubles
-        defSpeed = config.getDouble("Default_Speed", defSpeed);
+		//Doubles
+		defSpeed = config.getDouble("Default_Speed", defSpeed);
 	}
 	    
 	public void onDisable() {

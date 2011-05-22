@@ -28,6 +28,10 @@ speedReset: Speed reset
 
 #Integer(Number) Values You Can Change.
 #Note That The Hard Set Max Value Is 500.
+#Changes The Max Radius Admins/Ops(No Permissions) Can Use For The /setspeed # -world WORLD/-all Command.
+Max_SetWorld_Speed: 10
+#Changes The Max Radius Admins/Ops(No Permissions) Can Use For The /setspeed # PLAYER Command.
+Max_SetOther_Speed: 10
 #Changes The Max Radius Admins/Ops(No Permissions) Can Use For The /setspeed Command.
 Max_Admin_Speed: 10
 #Changes The Max Radius Mods/Non-Ops(No Permissions) Can Use For The /setspeed Command.

@@ -27,7 +27,7 @@ public class SSEntityListener extends EntityListener {
         if (!(event.getEntity() instanceof Player)) return;
         if (attacker instanceof Entity) return;
     	Player player = (Player) event.getEntity();
-        if(plugin.isSpeedOn) {
+        if (plugin.isSpeedOn.get(player) == true) {
         	if(plugin.players.get(player) >= 2) {
         		event.setCancelled(true);
         	} 	
