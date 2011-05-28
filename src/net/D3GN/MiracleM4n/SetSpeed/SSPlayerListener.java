@@ -92,6 +92,9 @@ public class SSPlayerListener extends PlayerListener {
     	Action action = event.getAction();
     	Double players = plugin.players.get(player);
     	
+    	if ((players) == null) {
+    		plugin.players.put(player, 1.0);
+    	}
     	if ((players) != 1) {
     		if (plugin.isSpeedOn.get(player) == true) {
             	if (((action == Action.LEFT_CLICK_AIR) || 
