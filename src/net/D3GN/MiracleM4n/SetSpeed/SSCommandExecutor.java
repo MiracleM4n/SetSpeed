@@ -18,6 +18,7 @@ public class SSCommandExecutor implements CommandExecutor {
     	if (!(sender instanceof Player)) {
 			return true;
 		}
+
     	Player player = ((Player) sender);
     	Double players = plugin.players.get(player);
     	
@@ -69,7 +70,7 @@ public class SSCommandExecutor implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 						return true;
 					}
-				} else if ((SetSpeed.Permissions == null && (player.isOp() == false)) || 
+				} else if ((SetSpeed.Permissions == null && (!player.isOp())) ||
 						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.mod"))) {
 					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
@@ -91,7 +92,7 @@ public class SSCommandExecutor implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.unKnown) + ".");
 						return true;
 					}
-				} else if ((SetSpeed.Permissions == null && (player.isOp() == false)) || 
+				} else if ((SetSpeed.Permissions == null && (!player.isOp())) ||
 						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, (plugin.speedPermValue)))) {
 					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
@@ -118,7 +119,7 @@ public class SSCommandExecutor implements CommandExecutor {
 					return true;
 				}
 			} else if(args.length == 2) {
-				(plugin.playerName) = new String (args[1]);
+				(plugin.playerName) = args[1];
 				try {
 					(plugin.speed) = new Double(args[0]);
 					(plugin.speedPerm) = new Double (args[0]);
@@ -185,8 +186,8 @@ public class SSCommandExecutor implements CommandExecutor {
 					return true;
 				}
 			} else if(args.length == 3) {
-				(plugin.getWorld) = new String (args[2]);
-				(plugin.ssWorld) = new String (args[1]);
+				(plugin.getWorld) = args[2];
+				(plugin.ssWorld) = args[1];
 				try {
 					(plugin.speed) = new Double(args[0]);
 					(plugin.speedPerm) = new Double (args[0]);
@@ -265,8 +266,8 @@ public class SSCommandExecutor implements CommandExecutor {
 			}
 		} else if (label.equalsIgnoreCase("speedoff")) {
     		if(args.length == 0) {
-    			if ((plugin.players).containsKey(sender)) {
-    				if (plugin.isSpeedOn.get(player) == true) {
+    			if (plugin.players.get(player) != null) {
+    				if (plugin.isSpeedOn.get(player)) {
     					plugin.isSpeedOn.put(player, false);
             			player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
             			return true;
@@ -275,7 +276,7 @@ public class SSCommandExecutor implements CommandExecutor {
     		}
     	} else if (label.equalsIgnoreCase("speedon")) {
     		if(args.length == 0) {
-    			if ((plugin.players).containsKey(sender)) {
+    			if (plugin.players.get(player) != null) {
     				plugin.isSpeedOn.put(player, true);
         			player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOn) + ".");
         			return true;

@@ -1,10 +1,7 @@
 package net.D3GN.MiracleM4n.SetSpeed;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -19,72 +16,65 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class SetSpeed extends JavaPlugin {
 
-	protected final static Logger logger = Logger.getLogger("Minecraft");
-	public static final String name = "SetSpeed";
-	SSPlayerListener playerListener = new SSPlayerListener(this);
-	SSEntityListener entityListener = new SSEntityListener(this);
-	SSCommandExecutor commandexecutor = new SSCommandExecutor(this);
-	
+	SSPlayerListener pListener = new SSPlayerListener(this);
+	SSEntityListener eListener = new SSEntityListener(this);
+	SSCommandExecutor cExecutor = new SSCommandExecutor(this);
+    SSConfigListener cListener = new SSConfigListener(this);
+
+    Configuration config = null;
 	
 	//Changeable
 	//Strings
-	public String notNumber = "That Is Not A Number";
-	public String noInterger = "Cant Use 0";
-	public String negativeInterger = "Cant Use Negative Values";
-	public String tooHigh = "Speed Too High";
-	public String unKnown = "Weird... Not Able To Set Speed";
-	public String noPermissions = "You Don't Have Permissions To Use This";
-	public String speedSetMessage = "Speed Set To";
-	public String speedOff = "Speed is off";
-	public String speedOn = "Speed is on";
-	public String speedReset = "Speed reset";
-	public String noSpeedSet = "No Speed value set";
+	 String notNumber = "That Is Not A Number";
+	 String noInterger = "Cant Use 0";
+	 String negativeInterger = "Cant Use Negative Values";
+	 String tooHigh = "Speed Too High";
+	 String unKnown = "Weird... Not Able To Set Speed";
+	 String noPermissions = "You Don't Have Permissions To Use This";
+	 String speedSetMessage = "Speed Set To";
+	 String speedOff = "Speed is off";
+	 String speedOn = "Speed is on";
+	 String speedReset = "Speed reset";
+	 String noSpeedSet = "No Speed value set";
 	
 	//Integers
-	public Integer bootItem = 317;
-	public Integer legItem = 316;
-	public Integer chestItem = 315;
-	public Integer helmItem = 314;
-	public Integer speedItem = 50;
-	public Integer maxSpeed = 5;
-	public Integer maxAdminSpeed = 10;
-	public Integer maxOtherSpeed = 10;
-	public Integer maxWorldSpeed = 10;
+	 Integer bootItem = 317;
+	 Integer legItem = 316;
+	 Integer chestItem = 315;
+	 Integer helmItem = 314;
+	 Integer speedItem = 50;
+	 Integer maxSpeed = 5;
+	 Integer maxAdminSpeed = 10;
+	 Integer maxOtherSpeed = 10;
+	 Integer maxWorldSpeed = 10;
 	
 	//Booleans
-	public Boolean defaSpeed = false;
-	public Boolean sneakAble = true;
+	 Boolean defaSpeed = false;
+	 Boolean sneakAble = true;
 	
 	//Doubles
-	public double defSpeed = 1.8;
-	
-	
-	
-	//Non-Changeable
-	//Booleans
-	//public Boolean noMove = false;
+	 double defSpeed = 1.8;
 	
 	//Hashes
-	public HashMap<Player, Double> players = new HashMap<Player, Double>();
-	public HashMap<Player, Boolean> isSpeedOn = new HashMap<Player, Boolean>();
+	 HashMap<Player, Double> players = new HashMap<Player, Double>();
+	 HashMap<Player, Boolean> isSpeedOn = new HashMap<Player, Boolean>();
 	
 	//Doubles
-	public double speed = 1;
-	public double speedPerm = 1;
+	 double speed = 1;
+	 double speedPerm = 1;
 	
 	//Integers
-	public int speedInt = (int) speed;
-	public int noSpeedValue = 0;
-	public int hardMaxSpeed = 500;
-	public int permSpeed = 1;
+	 int speedInt = (int) speed;
+	 int noSpeedValue = 0;
+	 int hardMaxSpeed = 500;
+	 int permSpeed = 1;
     
 	//Strings
-	public String getWorld = "";
-	public String ssWorld = "-world";
-	public String playerName = "";
-	public String speedSet = ((speedSetMessage) + " " + (speedInt));
-	public String speedPermValue = "setspeed." + (speedPerm);
-	public String permSpeedValue = "setspeed.perm." + (permSpeed);
+	 String getWorld = "";
+	 String ssWorld = "-world";
+	 String playerName = "";
+	 String speedSet = ((speedSetMessage) + " " + (speedInt));
+	 String speedPermValue = "setspeed." + (speedPerm);;
 	
 	    
 	public static PermissionHandler Permissions;
@@ -92,102 +82,26 @@ public class SetSpeed extends JavaPlugin {
 	public void onEnable() {
 		PluginDescriptionFile pdfFile = getDescription();
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Event.Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Highest, this);
-		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Highest, this);
-		pm.registerEvent(Event.Type.VEHICLE_EXIT, playerListener, Event.Priority.Highest, this);
-		pm.registerEvent(Event.Type.ENTITY_DAMAGE, entityListener, Event.Priority.Highest, this);
-		getCommand("setspeed").setExecutor(commandexecutor);
-		getCommand("speedoff").setExecutor(commandexecutor);
-		getCommand("speedon").setExecutor(commandexecutor);
+        config = new Configuration(new File(getDataFolder(), "config.yml"));
+		pm.registerEvent(Event.Type.PLAYER_MOVE, pListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT, pListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_RESPAWN, pListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.VEHICLE_EXIT, pListener, Event.Priority.Highest, this);
+		pm.registerEvent(Event.Type.ENTITY_DAMAGE, eListener, Event.Priority.Highest, this);
+		getCommand("setspeed").setExecutor(cExecutor);
+		getCommand("speedoff").setExecutor(cExecutor);
+		getCommand("speedon").setExecutor(cExecutor);
 	        
 		setupPermissions();
 		
 		System.out.println("[" + (pdfFile.getName()) + "]" + " version " + 
 			pdfFile.getVersion() + " is enabled!");
-		
-		moveFiles();
-		readConfig();
+
+		cListener.checkConfig();
+		cListener.readConfig();
 	}
-	
-	public void moveFiles(){
-		getDataFolder().mkdir();
-		getDataFolder().setWritable(true);
-		getDataFolder().setExecutable(true);
-		extractFile("config.yml");
-	}
-	
-	private void extractFile(String name) {
-		PluginDescriptionFile pdfFile = getDescription();
-		File actual = new File(getDataFolder(), name);
-		if (!actual.exists()) {
-			InputStream input = getClass().getResourceAsStream("/Config/" + name);
-			if (input != null) {
-				FileOutputStream output = null;
-				try
-				{
-					output = new FileOutputStream(actual);
-					byte[] buf = new byte[8192];
-					int length = 0;
-					while ((length = input.read(buf)) > 0) {
-						output.write(buf, 0, length);
-					}
-					System.out.println("[" + (pdfFile.getName()) + "]" + "Default file written: " + name);
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if (input != null)
-							input.close();
-					} catch (Exception e) {
-					} try {
-						if (output != null)
-							output.close();
-					} catch (Exception e) {
-					}
-				}
-			}
-		}
-	}
-	
-	public void readConfig() {
-		Configuration config = new Configuration(new File(getDataFolder(), "config.yml"));
-		config.load();
-		
-		//Strings
-		notNumber  = config.getString("NotNumb", notNumber);
-		noInterger = config.getString("noInt", noInterger);
-		negativeInterger  = config.getString("NegValue", negativeInterger);
-		tooHigh  = config.getString("TooHigh", tooHigh);
-		unKnown  = config.getString("unKnownSpeed", unKnown);
-		noPermissions  = config.getString("NoPerms", noPermissions);
-		speedSet  = config.getString("speedSet", speedSet);
-		speedOff = config.getString("speedOff", speedOff);
-		speedOn = config.getString("speedOn", speedOn);
-		speedReset = config.getString("speedReset", speedReset);
-		noSpeedSet = config.getString("noSpeedSet", noSpeedSet);
-        
-		//Intergers
-		maxSpeed = config.getInt("Max_Mod_Speed", maxSpeed);
-		maxAdminSpeed = config.getInt("Max_Admin_Speed", maxAdminSpeed);
-		maxOtherSpeed = config.getInt("Max_SetOther_Speed", maxOtherSpeed);
-		maxWorldSpeed = config.getInt("Max_SetWorld_Speed", maxWorldSpeed);
-		speedItem = config.getInt("Speed_ItemNumber", speedItem);
-		bootItem = config.getInt("Boot_ItemNumber", bootItem);
-		legItem = config.getInt("Leg_ItemNumber", legItem);
-		chestItem = config.getInt("Chest_ItemNumber", chestItem);
-		helmItem = config.getInt("Head_ItemNumber", helmItem);
-        
-		//Booleans
-		defaSpeed = config.getBoolean("DefSpeed", defaSpeed);
-		sneakAble = config.getBoolean("Sneak_Enabled", sneakAble);
-        
-		//Doubles
-		defSpeed = config.getDouble("Default_Speed", defSpeed);
-	}
-	    
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = getDescription();
 		System.out.println("[" + (pdfFile.getName()) + "]" + " version " + 

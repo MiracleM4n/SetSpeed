@@ -26,7 +26,7 @@ public class SSPlayerListener extends PlayerListener {
 			plugin.isSpeedOn.put(player, false);
 		}
     	if (player.isSneaking()) {
-    		if (plugin.sneakAble == true) {
+    		if (plugin.sneakAble) {
         		if (plugin.players.get(player) != null) {
         			if ((players) != 1) {
         				int material = player.getWorld().getBlockAt(player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()).getTypeId();
@@ -49,7 +49,7 @@ public class SSPlayerListener extends PlayerListener {
     			return;
     		}
     	} else if (!(player.isSneaking())) {
-    		if (plugin.isSpeedOn.get(player) == true) {
+    		if (plugin.isSpeedOn.get(player)) {
     			if (plugin.players.get(player) != null) {
     				if ((players) != 1) {
     					int material = player.getWorld().getBlockAt(player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1, player.getLocation().getBlockZ()).getTypeId();
@@ -75,15 +75,13 @@ public class SSPlayerListener extends PlayerListener {
     				(player.getInventory().getLeggings().getTypeId() == (plugin.legItem)) ||
     				(player.getInventory().getChestplate().getTypeId() == (plugin.chestItem)) ||
     				(player.getInventory().getHelmet().getTypeId() == (plugin.helmItem))) {
-    			if (plugin.isSpeedOn.get(player) == false) {
+    			if (!plugin.isSpeedOn.get(player)) {
     				player.performCommand("speedon");
     				plugin.isSpeedOn.put(player, true);
     			} else {
     				return;
     			} 
     		}
-    	} else {
-    		return;
     	}
     }
     
@@ -96,22 +94,20 @@ public class SSPlayerListener extends PlayerListener {
     		plugin.players.put(player, 1.0);
     	}
     	if ((players) != 1) {
-    		if (plugin.isSpeedOn.get(player) == true) {
+    		if (plugin.isSpeedOn.get(player)) {
             	if (((action == Action.LEFT_CLICK_AIR) || 
             			(action == Action.LEFT_CLICK_BLOCK)) && 
             			(player.getItemInHand().getTypeId() == (plugin.speedItem))) {
             		player.performCommand("speedoff");
             	}
-    		} else if (plugin.isSpeedOn.get(player) == false) { 
+    		} else if (!plugin.isSpeedOn.get(player)) {
         		if (((action == Action.LEFT_CLICK_AIR) || 
         			(action == Action.LEFT_CLICK_BLOCK)) && 
         			(player.getItemInHand().getTypeId() == (plugin.speedItem))) {
         		player.performCommand("speedon");
         		}
         	}
-        } else {
-        	return;
-    	}
+        }
     }
 	
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
