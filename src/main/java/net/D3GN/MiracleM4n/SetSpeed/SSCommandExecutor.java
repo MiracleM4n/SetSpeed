@@ -5,10 +5,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class SSCommandExecutor implements CommandExecutor {
-	
-	private final SetSpeed plugin;
+	SetSpeed plugin;
 	
     public SSCommandExecutor(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
@@ -20,7 +20,8 @@ public class SSCommandExecutor implements CommandExecutor {
 		}
 
     	Player player = ((Player) sender);
-    	Double players = plugin.players.get(player);
+        String pName = player.getName();
+    	Double players = plugin.players.get(pName);
     	
     	if (label.equalsIgnoreCase("setspeed")) {
 			if(args.length == 0) {
@@ -37,15 +38,15 @@ public class SSCommandExecutor implements CommandExecutor {
 				if (((plugin.speed) == (1))) {
 					if ((players) != 1) {
 						plugin.speed = 1;
-						plugin.players.put(player,(plugin.speed));
+						plugin.players.put(pName, (plugin.speed));
+                        setPlayersSpeed(player, plugin.players.get(pName));
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
 						return true;
 					} else {
 						return true;
 					}
 				}
-				if ((SetSpeed.Permissions == null && player.isOp()) || 
-						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.admin"))) {
+				if (plugin.checkPermissions(player, "setspeed.admin", true)) {
 					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 						return true; 
@@ -59,8 +60,9 @@ public class SSCommandExecutor implements CommandExecutor {
 						return true; 
 					}
 					if((plugin.speed) <= plugin.maxAdminSpeed) {
-						plugin.players.put(player,(plugin.speed));
+						plugin.players.put(pName, (plugin.speed));
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+                        setPlayersSpeed(player, plugin.players.get(pName));
 						return true;
 					}
 					if((plugin.speed) > (plugin.maxAdminSpeed)) {
@@ -70,19 +72,19 @@ public class SSCommandExecutor implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 						return true;
 					}
-				} else if ((SetSpeed.Permissions == null && (!player.isOp())) ||
-						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.mod"))) {
+				} else if (plugin.checkPermissions(player, "setspeed.mod", true)) {
 					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true; 
+						return true;
 					}
 					if ((plugin.speed) < (plugin.noSpeedValue)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
-						return true; 
+						return true;
 					}
 					if((plugin.speed) <= (plugin.maxSpeed)) {
-						plugin.players.put(player,(plugin.speed));
+						plugin.players.put(pName, (plugin.speed));
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+                        setPlayersSpeed(player, plugin.players.get(pName));
 						return true;
 					}
 					if((plugin.speed) > (plugin.maxSpeed)) {
@@ -92,19 +94,19 @@ public class SSCommandExecutor implements CommandExecutor {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.unKnown) + ".");
 						return true;
 					}
-				} else if ((SetSpeed.Permissions == null && (!player.isOp())) ||
-						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, (plugin.speedPermValue)))) {
+				} else if (plugin.checkPermissions(player, plugin.speedPermValue, true)) {
 					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true; 
+						return true;
 					}
 					if ((plugin.speed) < (plugin.noSpeedValue)) {
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
-						return true; 
+						return true;
 					}
 					if((plugin.speed) <= (plugin.speedPerm)) {
-						plugin.players.put(player,(plugin.speed));
+						plugin.players.put(pName, (plugin.speed));
 						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+                        setPlayersSpeed(player, plugin.players.get(pName));
 						return true;
 					}
 					if((plugin.speed) > (plugin.speedPerm)) {
@@ -119,7 +121,8 @@ public class SSCommandExecutor implements CommandExecutor {
 					return true;
 				}
 			} else if(args.length == 2) {
-				(plugin.playerName) = args[1];
+				Player targetN = plugin.getServer().getPlayer(args[1]);
+                String targetNa = targetN.getName();
 				try {
 					(plugin.speed) = new Double(args[0]);
 					(plugin.speedPerm) = new Double (args[0]);
@@ -127,18 +130,18 @@ public class SSCommandExecutor implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.notNumber) + ".");
 				    return true;
 				}
-				if ((SetSpeed.Permissions == null && player.isOp()) || 
-						(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.setothers"))) {
-					if (plugin.getServer().getPlayer(plugin.playerName) != null) {
+				if (plugin.checkPermissions(player, "setspeed.setothers", true)) {
+					if (targetN != null) {
 						if (((plugin.speed) == (1))) {
 							if ((players) != 1) {
 								plugin.speed = 1;
-								plugin.players.put((plugin.getServer().getPlayer(plugin.playerName)),(plugin.speed));
-								if (plugin.getServer().getPlayer(plugin.playerName) != null) {
-									(plugin.getServer().getPlayer(plugin.playerName)).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-									return true;
+								plugin.players.put(targetNa, (plugin.speed));
+								if (targetN != null) {
+									(targetN).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+                                    setPlayersSpeed(targetN, plugin.players.get(targetNa));
+                                    return true;
 								} else {
-									player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.playerName) + " is not online" + ".");
+									player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + " is not online" + ".");
 									return true;
 								}
 							} else {
@@ -158,12 +161,13 @@ public class SSCommandExecutor implements CommandExecutor {
 							return true; 
 						}
 						if((plugin.speed) <= plugin.maxOtherSpeed) {
-							plugin.players.put((plugin.getServer().getPlayer(plugin.playerName)),(plugin.speed));
-							if (plugin.getServer().getPlayer(plugin.playerName) != null) {
-								(plugin.getServer().getPlayer(plugin.playerName)).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+							plugin.players.put(targetNa, (plugin.speed));
+							if (targetN != null) {
+								(targetN).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+                                setPlayersSpeed(targetN, plugin.players.get(targetNa));
 								return true;
 							} else {
-								player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.playerName) + " is not online" + ".");
+								player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + " is not online" + ".");
 								return true;
 							}
 						}
@@ -171,13 +175,14 @@ public class SSCommandExecutor implements CommandExecutor {
 							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
 							return true;
 						}
-						if (plugin.getServer().getPlayer(plugin.playerName).isOnline()) {
-							plugin.players.put((plugin.getServer().getPlayer(plugin.playerName)),(plugin.speed));
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + plugin.getServer().getPlayer(plugin.playerName).getName() + "'s " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-							(plugin.getServer().getPlayer(plugin.playerName)).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+						if (targetN.isOnline()) {
+							plugin.players.put(targetNa, (plugin.speed));
+							player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + "'s " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+							(targetN).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
+                            setPlayersSpeed(targetN, plugin.players.get(targetNa));
 							return true;
 						} else {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.playerName) + " is not online" + ".");
+							player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + " is not online" + ".");
 							return true;
 						}
 					} 
@@ -195,20 +200,23 @@ public class SSCommandExecutor implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.notNumber) + ".");
 				    return true;
 				}
-				if ((SetSpeed.Permissions == null && player.isOp()) || 
-							(SetSpeed.Permissions != null && SetSpeed.Permissions.has(player, "setspeed.setworlds"))) {
+				if (plugin.checkPermissions(player, "setspeed.setworlds", true)) {
 					if ((plugin.ssWorld).equals("-world")) {
 						if (((plugin.speed) == (1))) {
 							if ((players) != 1) {
 								plugin.speed = 1;
 								if ((plugin.getWorld).equals("-all")) {
 									for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
-										plugin.players.put(playerList,(plugin.speed));
+                                        String pLName = playerList.getName();
+										plugin.players.put(pLName, plugin.speed);
+                                        setPlayersSpeed(playerList, plugin.players.get(pName));
 									}
 									plugin.getServer().broadcastMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
 								} else if ((plugin.getServer().getWorld(plugin.getWorld)) != null) {
 									for (Player playerList : (plugin.getServer().getWorld(plugin.getWorld).getPlayers())) {
-										plugin.players.put(playerList,(plugin.speed));
+                                        String pLName = playerList.getName();
+                                        plugin.players.put(pLName, (plugin.speed));
+                                        setPlayersSpeed(playerList, plugin.players.get(pLName));
 										playerList.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
 									}
 								}
@@ -232,14 +240,18 @@ public class SSCommandExecutor implements CommandExecutor {
 						if((plugin.speed) <= plugin.maxWorldSpeed) {
 							if ((plugin.getWorld).equals("-all")) {
 								for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
-									plugin.players.put(playerList,(plugin.speed));
+                                    String pLName = playerList.getName();
+                                    plugin.players.put(pLName, (plugin.speed));
+                                    setPlayersSpeed(playerList, plugin.players.get(pLName));
 								}
 								plugin.getServer().broadcastMessage(ChatColor.RED + "[SetSpeed] " + "Speed Set To " + (plugin.speed) + " For All Players In The Server" + ".");
 								return true;
 							}
 							if ((plugin.getServer().getWorld(plugin.getWorld)) != null) {
 								for (Player playerList : (plugin.getServer().getWorld(plugin.getWorld).getPlayers())) {
-									plugin.players.put(playerList,(plugin.speed));
+                                    String pLName = playerList.getName();
+                                    plugin.players.put(pLName, (plugin.speed));
+                                    setPlayersSpeed(playerList, plugin.players.get(pLName));
 									playerList.sendMessage(ChatColor.RED + "[SetSpeed] " + "Speed Set To " + (plugin.speed) + " For All Players In Your World" + ".");
 								}
 								player.sendMessage(ChatColor.RED + "[SetSpeed] " + "Speed Set To " + (plugin.speed) + " For All Players In " + (plugin.getServer().getWorld(plugin.getWorld).getName()) + ".");
@@ -266,26 +278,32 @@ public class SSCommandExecutor implements CommandExecutor {
 			}
 		} else if (label.equalsIgnoreCase("speedoff")) {
     		if(args.length == 0) {
-    			if (plugin.players.get(player) != null) {
-    				if (plugin.isSpeedOn.get(player)) {
-    					plugin.isSpeedOn.put(player, false);
-            			player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
+    			if (plugin.players.get(pName) != null) {
+    				if (plugin.isSpeedOn.get(pName)) {
+    					plugin.isSpeedOn.put(pName, false);
+                        setPlayersSpeed(player, 1.0);
             			return true;
     				}
     			}
     		}
     	} else if (label.equalsIgnoreCase("speedon")) {
-    		if(args.length == 0) {
-    			if (plugin.players.get(player) != null) {
-    				plugin.isSpeedOn.put(player, true);
-        			player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOn) + ".");
-        			return true;
-    			} else {
-    				player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noSpeedSet) + ".");
+            if(args.length == 0) {
+    			if (plugin.players.get(pName) != null) {
+    				plugin.isSpeedOn.put(pName, true);
+                    setPlayersSpeed(player, plugin.players.get(pName));
+                    return true;
     			}
     		}
     	}
     	return true;
 	}
+
+    public void setPlayersSpeed(Player player, Double speed) {
+        SpoutPlayer sPlayer = (SpoutPlayer)player;
+        sPlayer.setWalkingMultiplier(speed);
+        sPlayer.setSwimmingMultiplier(speed);
+        //sPlayer.setGravityMultiplier(1/speed);
+        sPlayer.setAirSpeedMultiplier(speed);
+    }
 }
 

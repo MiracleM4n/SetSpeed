@@ -7,8 +7,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityListener;
 
 public class SSEntityListener extends EntityListener {
-    
-	private final SetSpeed plugin;
+    SetSpeed plugin;
 	
     public SSEntityListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
@@ -23,12 +22,13 @@ public class SSEntityListener extends EntityListener {
         if (!(event.getEntity() instanceof Player)) return;
         if (attacker instanceof Entity) return;
     	Player player = (Player) event.getEntity();
-        if (plugin.isSpeedOn.get(player)) {
-        	if(plugin.players.get(player) >= 2) {
+        String pName = player.getName();
+        if (plugin.isSpeedOn.get(pName)) {
+        	if(plugin.players.get(pName) >= 2) {
         		event.setCancelled(true);
         	} 	
         } else if (player.isSneaking()) {
-        	if(plugin.players.get(player) >= 2) {
+        	if(plugin.players.get(pName) >= 2) {
         		event.setCancelled(true);
         	} 
         }
