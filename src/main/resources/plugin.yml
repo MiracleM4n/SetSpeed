@@ -9,16 +9,20 @@ commands:
     setspeed:
         description: Set Speed
         usage: |
-            /<command> [radius]
-            Example: /<command> View This
-            Example: /<command> 10 - sets your speed to 10x normal.
-        description: Set Speed
+            [SetSpeed Help]
+            /<command> 10 - sets your speed to 10x normal.
+            /<command> 10 *Player* - sets Player's speed to 10x normal.
+            /<command> 10 -world *World* - sets all player's speeds in world World to 10x normal.
+            /<command> 10 -world -all - sets all player's speeds to 10x normal.
+        aliases: [ss,sspeed,sets]
     speedoff: 
         description: Turn Speed Off
         usage: |
             /<command>
+        aliases: [soff,ssoff]
     speedon:
         description: Turn Speed On
         usage: |
             /<command>
+        aliases: [son,sson]
             

@@ -1,10 +1,12 @@
 package net.D3GN.MiracleM4n.SetSpeed;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class SSCommandExecutor implements CommandExecutor {
@@ -13,292 +15,193 @@ public class SSCommandExecutor implements CommandExecutor {
     public SSCommandExecutor(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
-    
+
     public boolean onCommand (CommandSender sender, Command command, String label, String[] args) {
-    	if (!(sender instanceof Player)) {
+    	if (!(sender instanceof Player))
 			return true;
-		}
+
+        String cmd = command.getName();
 
     	Player player = ((Player) sender);
         String pName = player.getName();
-    	Double players = plugin.players.get(pName);
-    	
-    	if (label.equalsIgnoreCase("setspeed")) {
-			if(args.length == 0) {
-				return false;
-			}
-			if(args.length == 1) {
-				try {
-					(plugin.speed) = new Double(args[0]);
-					(plugin.speedPerm) = new Double (args[0]);
-				} catch (NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.notNumber) + ".");
-				    return true;
-				}
-				if (((plugin.speed) == (1))) {
-					if ((players) != 1) {
-						plugin.speed = 1;
-						plugin.players.put(pName, (plugin.speed));
-                        setPlayersSpeed(player, plugin.players.get(pName));
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
-						return true;
-					} else {
-						return true;
-					}
-				}
-				if (plugin.checkPermissions(player, "setspeed.admin", true)) {
-					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true; 
-					}
-					if ((plugin.speed) == (plugin.noSpeedValue)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noInterger) + ".");
-						return true; 
-					}
-					if ((plugin.speed) < (plugin.noSpeedValue)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
-						return true; 
-					}
-					if((plugin.speed) <= plugin.maxAdminSpeed) {
-						plugin.players.put(pName, (plugin.speed));
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-                        setPlayersSpeed(player, plugin.players.get(pName));
-						return true;
-					}
-					if((plugin.speed) > (plugin.maxAdminSpeed)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true;
-					} else {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true;
-					}
-				} else if (plugin.checkPermissions(player, "setspeed.mod", true)) {
-					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true;
-					}
-					if ((plugin.speed) < (plugin.noSpeedValue)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
-						return true;
-					}
-					if((plugin.speed) <= (plugin.maxSpeed)) {
-						plugin.players.put(pName, (plugin.speed));
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-                        setPlayersSpeed(player, plugin.players.get(pName));
-						return true;
-					}
-					if((plugin.speed) > (plugin.maxSpeed)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true;
-					} else {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.unKnown) + ".");
-						return true;
-					}
-				} else if (plugin.checkPermissions(player, plugin.speedPermValue, true)) {
-					if ((plugin.speed) > (plugin.hardMaxSpeed)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true;
-					}
-					if ((plugin.speed) < (plugin.noSpeedValue)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
-						return true;
-					}
-					if((plugin.speed) <= (plugin.speedPerm)) {
-						plugin.players.put(pName, (plugin.speed));
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-                        setPlayersSpeed(player, plugin.players.get(pName));
-						return true;
-					}
-					if((plugin.speed) > (plugin.speedPerm)) {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-						return true;
-					} else {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.unKnown) + ".");
-						return true;
-					}
-				} else {
-					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
-					return true;
-				}
-			} else if(args.length == 2) {
-				Player targetN = plugin.getServer().getPlayer(args[1]);
-                String targetNa = targetN.getName();
-				try {
-					(plugin.speed) = new Double(args[0]);
-					(plugin.speedPerm) = new Double (args[0]);
-				} catch (NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.notNumber) + ".");
-				    return true;
-				}
-				if (plugin.checkPermissions(player, "setspeed.setothers", true)) {
-					if (targetN != null) {
-						if (((plugin.speed) == (1))) {
-							if ((players) != 1) {
-								plugin.speed = 1;
-								plugin.players.put(targetNa, (plugin.speed));
-								if (targetN != null) {
-									(targetN).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-                                    setPlayersSpeed(targetN, plugin.players.get(targetNa));
-                                    return true;
-								} else {
-									player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + " is not online" + ".");
-									return true;
-								}
-							} else {
-								return true;
-							}
-						}
-						if ((plugin.speed) > (plugin.hardMaxSpeed)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-							return true; 
-						}
-						if ((plugin.speed) == (plugin.noSpeedValue)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noInterger) + ".");
-							return true; 
-						}
-						if ((plugin.speed) < (plugin.noSpeedValue)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
-							return true; 
-						}
-						if((plugin.speed) <= plugin.maxOtherSpeed) {
-							plugin.players.put(targetNa, (plugin.speed));
-							if (targetN != null) {
-								(targetN).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-                                setPlayersSpeed(targetN, plugin.players.get(targetNa));
-								return true;
-							} else {
-								player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + " is not online" + ".");
-								return true;
-							}
-						}
-						if((plugin.speed) > (plugin.maxOtherSpeed)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-							return true;
-						}
-						if (targetN.isOnline()) {
-							plugin.players.put(targetNa, (plugin.speed));
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + "'s " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-							(targetN).sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedSet) + " To " + (plugin.speed) + ".");
-                            setPlayersSpeed(targetN, plugin.players.get(targetNa));
-							return true;
-						} else {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + targetNa + " is not online" + ".");
-							return true;
-						}
-					} 
-				} else {
-					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
-					return true;
-				}
-			} else if(args.length == 3) {
-				(plugin.getWorld) = args[2];
-				(plugin.ssWorld) = args[1];
-				try {
-					(plugin.speed) = new Double(args[0]);
-					(plugin.speedPerm) = new Double (args[0]);
-				} catch (NumberFormatException e) {
-					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.notNumber) + ".");
-				    return true;
-				}
-				if (plugin.checkPermissions(player, "setspeed.setworlds", true)) {
-					if ((plugin.ssWorld).equals("-world")) {
-						if (((plugin.speed) == (1))) {
-							if ((players) != 1) {
-								plugin.speed = 1;
-								if ((plugin.getWorld).equals("-all")) {
-									for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
-                                        String pLName = playerList.getName();
-										plugin.players.put(pLName, plugin.speed);
-                                        setPlayersSpeed(playerList, plugin.players.get(pName));
-									}
-									plugin.getServer().broadcastMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
-								} else if ((plugin.getServer().getWorld(plugin.getWorld)) != null) {
-									for (Player playerList : (plugin.getServer().getWorld(plugin.getWorld).getPlayers())) {
-                                        String pLName = playerList.getName();
-                                        plugin.players.put(pLName, (plugin.speed));
-                                        setPlayersSpeed(playerList, plugin.players.get(pLName));
-										playerList.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedReset) + ".");
-									}
-								}
-								return true;
-							} else {
-								return true;
-							}
-						}
-						if ((plugin.speed) > (plugin.hardMaxSpeed)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-							return true; 
-						}
-						if ((plugin.speed) == (plugin.noSpeedValue)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noInterger) + ".");
-							return true; 
-						}
-						if ((plugin.speed) < (plugin.noSpeedValue)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.negativeInterger) + ".");
-							return true; 
-						}
-						if((plugin.speed) <= plugin.maxWorldSpeed) {
-							if ((plugin.getWorld).equals("-all")) {
-								for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
-                                    String pLName = playerList.getName();
-                                    plugin.players.put(pLName, (plugin.speed));
-                                    setPlayersSpeed(playerList, plugin.players.get(pLName));
-								}
-								plugin.getServer().broadcastMessage(ChatColor.RED + "[SetSpeed] " + "Speed Set To " + (plugin.speed) + " For All Players In The Server" + ".");
-								return true;
-							}
-							if ((plugin.getServer().getWorld(plugin.getWorld)) != null) {
-								for (Player playerList : (plugin.getServer().getWorld(plugin.getWorld).getPlayers())) {
-                                    String pLName = playerList.getName();
-                                    plugin.players.put(pLName, (plugin.speed));
-                                    setPlayersSpeed(playerList, plugin.players.get(pLName));
-									playerList.sendMessage(ChatColor.RED + "[SetSpeed] " + "Speed Set To " + (plugin.speed) + " For All Players In Your World" + ".");
-								}
-								player.sendMessage(ChatColor.RED + "[SetSpeed] " + "Speed Set To " + (plugin.speed) + " For All Players In " + (plugin.getServer().getWorld(plugin.getWorld).getName()) + ".");
-								return true;
-							} else {
-								player.sendMessage(ChatColor.RED + "[SetSpeed] " + "World Not Found" + ".");
-								return true;
-							}
-						}
-						if((plugin.speed) > (plugin.maxWorldSpeed)) {
-							player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
-							return true;
-						}
-					} else {
-						player.sendMessage(ChatColor.RED + "[SetSpeed] " + "Please Use /setspeed # -world WORLDNAME" + ".");
-						return true;
-					}
-				} else {
-					player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
-					return true;
-				}
-			} else {
+        Double pSpeed= plugin.players.get(pName);
+
+    	if (cmd.equalsIgnoreCase("setspeed")) {
+            if (args.length == 0) {
+                sender.sendMessage(ChatColor.DARK_RED + "[SetSpeed Help]");
+                sender.sendMessage(ChatColor.DARK_GREEN + "/" + cmd + " 10 - sets your speed to 10x normal.");
+                sender.sendMessage(ChatColor.DARK_GREEN + "/" + cmd + " 10 *Player* - sets Player's speed to 10x normal.");
+                sender.sendMessage(ChatColor.DARK_GREEN + "/" + cmd + " 10 -world *World* - sets all player's speeds in world World to 10x normal.");
+                sender.sendMessage(ChatColor.DARK_GREEN + "/" + cmd + " 10 -world -all - sets all player's speeds to 10x normal.");
+                return true;
+            }
+
+            try {
+				plugin.speed = new Double(args[0]);
+				plugin.speedPerm = new Double (args[0]);
+			} catch (NumberFormatException e) {
+				player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.notNumber) + ".");
 				return true;
 			}
-		} else if (label.equalsIgnoreCase("speedoff")) {
-    		if(args.length == 0) {
-    			if (plugin.players.get(pName) != null) {
-    				if (plugin.isSpeedOn.get(pName)) {
-    					plugin.isSpeedOn.put(pName, false);
-                        setPlayersSpeed(player, 1.0);
-            			return true;
-    				}
-    			}
-    		}
-    	} else if (label.equalsIgnoreCase("speedon")) {
-            if(args.length == 0) {
-    			if (plugin.players.get(pName) != null) {
-    				plugin.isSpeedOn.put(pName, true);
-                    setPlayersSpeed(player, plugin.players.get(pName));
+
+			if (args.length == 1) {
+				if (plugin.checkPermissions(player, "setspeed.admin", true)) {
+					checkSpeedVars(player, plugin.speed, plugin.maxAdminSpeed);
                     return true;
-    			}
+				} else if (plugin.checkPermissions(player, "setspeed.mod", true)) {
+                    checkSpeedVars(player, plugin.speed, plugin.maxSpeed);
+                    return true;
+				} else if (plugin.checkPermissions(player, plugin.speedPermValue, true)) {
+                    checkSpeedVars(player, plugin.speed, plugin.speedPerm);
+                	return true;
+				} else {
+					player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
+					return true;
+				}
+			} else if (args.length == 2) {
+				Player target = plugin.getServer().getPlayer(args[1]);
+
+				if (plugin.checkPermissions(player, "setspeed.setothers", true)) {
+                    checkSpeedVars(player, target, plugin.speed, plugin.maxOtherSpeed);
+                    return true;
+				} else {
+					player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
+					return true;
+				}
+			} else if (args.length == 3) {
+                World world = plugin.getServer().getWorld(args[2]);
+                if (plugin.checkPermissions(player, "setspeed.setworlds", true)) {
+                    if (args[1].equals("-world")) {
+                        if (args[1].equals("-all")) {
+                            checkWorldSpeedVars(player, world, plugin.speed, plugin.maxWorldSpeed, true);
+                            return true;
+                        } else {
+                            checkWorldSpeedVars(player, world, plugin.speed, plugin.maxWorldSpeed, false);
+                            return true;
+                        }
+                    } else {
+						player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] Please Use /setspeed # -world WORLDNAME.");
+					    return true;
+                    }
+				} else {
+					player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.noPermissions) + ".");
+					return true;
+				}
+			}
+		    return true;
+		} else if (cmd.equalsIgnoreCase("speedoff")) {
+    		if (plugin.isSpeedOn.get(pName)) {
+    			plugin.isSpeedOn.put(pName, false);
+                setPlayersSpeed(player, 1);
+            	return true;
+    		}
+    	} else if (cmd.equalsIgnoreCase("speedon")) {
+    	    if (pSpeed != null) {
+    		    plugin.isSpeedOn.put(pName, true);
+                setPlayersSpeed(player, pSpeed);
+                return true;
     		}
     	}
-    	return true;
+
+        return true;
 	}
 
-    public void setPlayersSpeed(Player player, Double speed) {
+    protected void checkSpeedVars(Player player, double speed, double maxSpeed) {
+        checkSpeedVars(player, player, speed, maxSpeed);
+    }
+
+    protected void checkSpeedVars(Player player, Player target, double speed, double maxSpeed) {
+        String tName = target.getName();
+        Double tValue = plugin.players.get(tName);
+        if (target == null)
+            player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + tName + " is not online" + ".");
+
+		if (plugin.speed == 1) {
+		    if (tValue != 1) {
+				plugin.speed = 1;
+				plugin.players.put(tName, plugin.speed);
+                setPlayersSpeed(target, tValue);
+				player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + ".");
+			}
+		    return;
+		}
+
+        if (speed > plugin.hardMaxSpeed)
+			player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
+        else if (plugin.speed == (plugin.noSpeedValue))
+		    player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.noInteger) + ".");
+		else if (speed < (plugin.noSpeedValue))
+			player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.negativeInteger) + ".");
+		else if (speed <= maxSpeed) {
+			plugin.players.put(tName, plugin.speed);
+            setPlayersSpeed(target, tValue);
+            target.performCommand("speedon");
+
+            if (target != player) {
+                player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + tName + "'s " + (plugin.speedSet) + " " + plugin.speed + ".");
+                target.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.speedSet) + " " + plugin.speed + ".");
+            } else
+                target.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.speedSet) + " " + plugin.speed + ".");
+        } else if (speed > maxSpeed)
+			player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
+		else
+		    player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.unKnown) + ".");
+    }
+
+    protected void checkWorldSpeedVars(Player player, World tWorld, double speed, double maxSpeed, Boolean allWorlds) {
+	    if (speed == 1) {
+		    if (allWorlds) {
+				for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
+                    String pLName = playerList.getName();
+				    plugin.players.put(pLName, plugin.speed);
+                    setPlayersSpeed(playerList, plugin.players.get(pLName));
+			    }
+                plugin.getServer().broadcastMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + ".");
+            } else if (tWorld != null) {
+				for (Player playerList : tWorld.getPlayers()) {
+                    String pLName = playerList.getName();
+                    plugin.players.put(pLName, plugin.speed);
+                    setPlayersSpeed(playerList, plugin.players.get(pLName));
+					playerList.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + ".");
+				}
+				player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + " in " + tWorld.getName() + ".");
+			} else
+			    player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] World Not Found.");
+		}
+
+        if (speed > plugin.hardMaxSpeed)
+			player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
+        else if (plugin.speed == (plugin.noSpeedValue))
+		    player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.noInteger) + ".");
+		else if (speed < (plugin.noSpeedValue))
+			player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.negativeInteger) + ".");
+		else if (speed <= maxSpeed) {
+			if (allWorlds) {
+				for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
+                    String pLName = playerList.getName();
+				    plugin.players.put(pLName, plugin.speed);
+                    setPlayersSpeed(playerList, plugin.players.get(pLName));
+                    playerList.performCommand("speedon");
+			    }
+                plugin.getServer().broadcastMessage(ChatColor.DARK_RED + "[SetSpeed] Speed Set To " + plugin.speed + " For All Players On The Server.");
+            } else if (tWorld != null) {
+				for (Player playerList : tWorld.getPlayers()) {
+                    String pLName = playerList.getName();
+                    plugin.players.put(pLName, plugin.speed);
+                    setPlayersSpeed(playerList, plugin.players.get(pLName));
+                    playerList.performCommand("speedon");
+                    playerList.sendMessage(ChatColor.DARK_RED + "[SetSpeed] Speed Set To " + plugin.speed + " For All Players In Your World.");
+				}
+                player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] Speed Set To " + plugin.speed + " For All Players In " + tWorld.getName() + ".");
+			} else
+			    player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] World Not Found.");
+        } else if (speed > maxSpeed)
+			player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
+		else
+		    player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.unKnown) + ".");
+    }
+
+    protected void setPlayersSpeed(Player player, double speed) {
         SpoutPlayer sPlayer = (SpoutPlayer)player;
         sPlayer.setWalkingMultiplier(speed);
         sPlayer.setSwimmingMultiplier(speed);

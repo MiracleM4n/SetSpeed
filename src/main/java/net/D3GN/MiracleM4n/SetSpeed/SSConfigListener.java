@@ -20,8 +20,8 @@ public class SSConfigListener {
 
         //Strings
 		checkOption(config, "NotNumb", plugin.notNumber);
-		checkOption(config, "noInt", plugin.noInterger);
-		checkOption(config, "NegValue", plugin.negativeInterger);
+		checkOption(config, "noInt", plugin.noInteger);
+		checkOption(config, "NegValue", plugin.negativeInteger);
 		checkOption(config, "TooHigh", plugin.tooHigh);
 		checkOption(config, "unKnownSpeed", plugin.unKnown);
 		checkOption(config, "NoPerms", plugin.noPermissions);
@@ -66,8 +66,8 @@ public class SSConfigListener {
 
         //Strings
         plugin.notNumber  = config.getString("NotNumb", plugin.notNumber);
-        plugin.noInterger = config.getString("noInt", plugin.noInterger);
-        plugin.negativeInterger  = config.getString("NegValue", plugin.negativeInterger);
+        plugin.noInteger = config.getString("noInt", plugin.noInteger);
+        plugin.negativeInteger  = config.getString("NegValue", plugin.negativeInteger);
         plugin.tooHigh  = config.getString("TooHigh", plugin.tooHigh);
         plugin.unKnown  = config.getString("unKnownSpeed", plugin.unKnown);
         plugin.noPermissions  = config.getString("NoPerms", plugin.noPermissions);

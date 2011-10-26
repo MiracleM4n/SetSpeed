@@ -25,6 +25,7 @@ public class SetSpeed extends JavaPlugin {
 	SSCommandExecutor cExecutor = null;
     SSConfigListener cListener = null;
     SSVehicleListener vListener = null;
+    SSCustomListener cUListener = null;
 
     // Permissions
     public PermissionHandler permissions;
@@ -58,14 +59,13 @@ public class SetSpeed extends JavaPlugin {
 	public Integer maxAdminSpeed = 10;
 	public Integer maxOtherSpeed = 10;
 	public Integer maxWorldSpeed = 10;
-	public Integer speedInt = (int) speed;
 	public Integer noSpeedValue = 0;
-	public Integer hardMaxSpeed = 500;
+	public Integer hardMaxSpeed = 50;
 
 	// Strings
 	public String notNumber = "That Is Not A Number";
-	public String noInterger = "Cant Use 0";
-	public String negativeInterger = "Cant Use Negative Values";
+	public String noInteger = "Cant Use 0";
+	public String negativeInteger = "Cant Use Negative Values";
 	public String tooHigh = "Speed Too High";
 	public String unKnown = "Weird... Not Able To Set Speed";
 	public String noPermissions = "You Don't Have Permissions To Use This";
@@ -74,9 +74,7 @@ public class SetSpeed extends JavaPlugin {
 	public String speedOn = "Speed is on";
 	public String speedReset = "Speed reset";
 	public String noSpeedSet = "No Speed value set";
-	public String getWorld = "";
-	public String ssWorld = "-world";
-	public String speedSet = ((speedSetMessage) + " " + (speedInt));
+	public String speedSet = ((speedSetMessage) + " " + (int)speed);
 	public String speedPermValue = "setspeed." + (speedPerm);
 
 	// Hashes
@@ -96,14 +94,15 @@ public class SetSpeed extends JavaPlugin {
 	        cExecutor = new SSCommandExecutor(this);
             cListener = new SSConfigListener(this);
             vListener = new SSVehicleListener(this);
+            cUListener = new SSCustomListener(this);
 
-            pm.registerEvent(Event.Type.PLAYER_MOVE, pListener, Event.Priority.Highest, this);
 		    pm.registerEvent(Event.Type.PLAYER_INTERACT, pListener, Event.Priority.Highest, this);
 		    pm.registerEvent(Event.Type.PLAYER_RESPAWN, pListener, Event.Priority.Highest, this);
 		    pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Event.Priority.Highest, this);
 		    pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Event.Priority.Highest, this);
 		    pm.registerEvent(Event.Type.VEHICLE_EXIT, pListener, Event.Priority.Highest, this);
 		    pm.registerEvent(Event.Type.ENTITY_DAMAGE, eListener, Event.Priority.Highest, this);
+            pm.registerEvent(Event.Type.CUSTOM_EVENT, cUListener, Event.Priority.Highest, this);
 
             getCommand("setspeed").setExecutor(cExecutor);
 		    getCommand("speedoff").setExecutor(cExecutor);
@@ -116,9 +115,14 @@ public class SetSpeed extends JavaPlugin {
 
 		    cListener.checkConfig();
 		    cListener.readConfig();
-        } else {
+
+            for (Player player : getServer().getOnlinePlayers()) {
+                players.put(player.getName(), 1.0);
+                isSpeedOn.put(player.getName(), false);
+            }
+
+        } else
             pm.disablePlugin(this);
-        }
 	}
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = getDescription();
