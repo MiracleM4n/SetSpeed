@@ -20,8 +20,8 @@
             </snapshots>
         </repository>
         <repository>
-            <id>blockface-repo</id>
-            <url>http://repo.blockface.org/repository</url>
+            <id>cward-repo</id>
+            <url>http://repo.chrisgward.com/repository</url>
             <releases>
                 <updatePolicy>always</updatePolicy>
             </releases>

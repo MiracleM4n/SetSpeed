@@ -151,7 +151,7 @@ public class SetSpeed extends JavaPlugin {
             System.out.println("[" + pdfFile.getName() + "] GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             gmPermissionsB = false;
-            System.out.println("[" + pdfFile.getName() + "] No Legacy Permissions plugins were found defaulting to SuperPerms");
+            System.out.println("[" + pdfFile.getName() + "] No Legacy Permissions plugins were found defaulting to SuperPerms.");
         }
     }
 
