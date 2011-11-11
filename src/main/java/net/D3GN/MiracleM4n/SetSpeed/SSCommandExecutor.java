@@ -61,6 +61,11 @@ public class SSCommandExecutor implements CommandExecutor {
 			} else if (args.length == 2) {
 				Player target = plugin.getServer().getPlayer(args[1]);
 
+                if (target == null) {
+                    player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] Player " + args[1] + " Not Found.");
+                    return true;
+                }
+
 				if (plugin.checkPermissions(player, "setspeed.setothers", true)) {
                     checkSpeedVars(player, target, plugin.speed, plugin.maxOtherSpeed);
                     return true;

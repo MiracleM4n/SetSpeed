@@ -1,6 +1,6 @@
 name: SetSpeed
 main: net.D3GN.MiracleM4n.SetSpeed.SetSpeed
-version: 1.8.1_1
+version: 1.8.1_2
 website: 
 author: MiracleM4n
 softdepend: [Spout]
