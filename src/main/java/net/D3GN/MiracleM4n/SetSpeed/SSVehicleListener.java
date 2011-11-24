@@ -12,11 +12,11 @@ public class SSVehicleListener extends VehicleListener {
     }
 
     public void onVehicleExit(VehicleExitEvent event) {
-		Player player = (Player) event.getExited();
-		for(int i = 0; i < 501; i++) {
-			if (plugin.checkPermissions(player, ("setspeed.perm." + i), true)) {
-				plugin.cExecutor.setPlayersSpeed(player, (double)(i), true);
-			}
-		}
+        Player player = (Player) event.getExited();
+        for(int i = 0; i < 501; i++) {
+            if (plugin.checkPermissions(player, ("setspeed.perm." + i), true)) {
+                plugin.cExecutor.setPlayersSpeed(player, (double)(i), true);
+            }
+        }
     }
 }

@@ -11,69 +11,69 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class SSPlayerListener extends PlayerListener {
     SetSpeed plugin;
-	
+
     public SSPlayerListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
     
-	public void onPlayerInteract(PlayerInteractEvent event) {
-    	Player player = event.getPlayer();
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
         String pName = player.getName();
-    	Action action = event.getAction();
-    	Double pSpeed = plugin.players.get(pName);
+        Action action = event.getAction();
+        Double pSpeed = plugin.players.get(pName);
 
-    	if (pSpeed != 1) {
-    		if (plugin.isSpeedOn.get(pName)) {
-            	if (((action == Action.LEFT_CLICK_AIR) || 
-            			(action == Action.LEFT_CLICK_BLOCK)) && 
-            			(player.getItemInHand().getTypeId() == (plugin.speedItem))) {
-            		player.performCommand("speedoff");
+        if (pSpeed != 1) {
+            if (plugin.isSpeedOn.get(pName)) {
+                if (((action == Action.LEFT_CLICK_AIR) ||
+                        (action == Action.LEFT_CLICK_BLOCK)) &&
+                        (player.getItemInHand().getTypeId() == (plugin.speedItem))) {
+                    player.performCommand("speedoff");
                     player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
-            	}
-    		} else if (!plugin.isSpeedOn.get(pName)) {
-        		if (((action == Action.LEFT_CLICK_AIR) || 
-        			(action == Action.LEFT_CLICK_BLOCK)) && 
-        			(player.getItemInHand().getTypeId() == (plugin.speedItem))) {
-        		player.performCommand("speedon");
+                }
+            } else if (!plugin.isSpeedOn.get(pName)) {
+                if (((action == Action.LEFT_CLICK_AIR) ||
+                    (action == Action.LEFT_CLICK_BLOCK)) &&
+                    (player.getItemInHand().getTypeId() == (plugin.speedItem))) {
+                player.performCommand("speedon");
                 player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOn) + ".");
-        		}
-        	}
+                }
+            }
         }
     }
-	
-	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		Player player = event.getPlayer();
+
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
         String pName = player.getName();
-		Double pSpeed = plugin.players.get(pName);
-		
-		if (pSpeed != 1) {
-			player.performCommand("speedoff");
+        Double pSpeed = plugin.players.get(pName);
+
+        if (pSpeed != 1) {
+            player.performCommand("speedoff");
             player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
-		}
-	}
-	
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
+        }
+    }
+
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
         String pName = player.getName();
-		Double pSpeed = plugin.players.get(pName);
-		
-		if (pSpeed != 1) {
-			player.performCommand("speedoff");
+        Double pSpeed = plugin.players.get(pName);
+
+        if (pSpeed != 1) {
+            player.performCommand("speedoff");
             player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
-		}
-	}
-	
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
+        }
+    }
+
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
         String pName = player.getName();
 
-		plugin.players.put(pName, (double)1);
+        plugin.players.put(pName, (double)1);
         plugin.isSpeedOn.put(pName, false);
 
-		for (int i = 0; i < 501; i++) {
-			if (plugin.checkPermissions(player, ("setspeed.perm." + i), true)) {
-				plugin.cExecutor.setPlayersSpeed(player,(double)(i), true);
-			}
-		}
-	}
+        for (int i = 0; i < 501; i++) {
+            if (plugin.checkPermissions(player, ("setspeed.perm." + i), true)) {
+                plugin.cExecutor.setPlayersSpeed(player,(double)(i), true);
+            }
+        }
+    }
 }

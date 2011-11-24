@@ -9,48 +9,48 @@ public class SSConfigListener {
     SetSpeed plugin;
 
     public SSConfigListener(SetSpeed  plugin) {
-	    this.plugin = plugin;
+        this.plugin = plugin;
     }
 
     Boolean hasChanged = false;
 
     public void checkConfig() {
-	    YamlConfiguration config = plugin.config;
+        YamlConfiguration config = plugin.config;
         YamlConfigurationOptions configO = config.options();
 
         //Strings
-		checkOption(config, "NotNumb", plugin.notNumber);
-		checkOption(config, "noInt", plugin.noInteger);
-		checkOption(config, "NegValue", plugin.negativeInteger);
-		checkOption(config, "TooHigh", plugin.tooHigh);
-		checkOption(config, "unKnownSpeed", plugin.unKnown);
-		checkOption(config, "NoPerms", plugin.noPermissions);
-		checkOption(config, "speedSet", plugin.speedSetMessage);
-		checkOption(config, "speedOff", plugin.speedOff);
-		checkOption(config, "speedOn", plugin.speedOn);
-		checkOption(config, "speedReset", plugin.speedReset);
-		checkOption(config, "noSpeedSet", plugin.noSpeedSet);
+        checkOption(config, "NotNumb", plugin.notNumber);
+        checkOption(config, "noInt", plugin.noInteger);
+        checkOption(config, "NegValue", plugin.negativeInteger);
+        checkOption(config, "TooHigh", plugin.tooHigh);
+        checkOption(config, "unKnownSpeed", plugin.unKnown);
+        checkOption(config, "NoPerms", plugin.noPermissions);
+        checkOption(config, "speedSet", plugin.speedSetMessage);
+        checkOption(config, "speedOff", plugin.speedOff);
+        checkOption(config, "speedOn", plugin.speedOn);
+        checkOption(config, "speedReset", plugin.speedReset);
+        checkOption(config, "noSpeedSet", plugin.noSpeedSet);
             
         //Intergers
-		checkOption(config, "Max_Mod_Speed", plugin.maxSpeed);
-		checkOption(config, "Max_Admin_Speed", plugin.maxAdminSpeed);
-		checkOption(config, "Max_SetOther_Speed", plugin.maxOtherSpeed);
-		checkOption(config, "Max_SetWorld_Speed", plugin.maxWorldSpeed);
-		checkOption(config, "Speed_ItemNumber", plugin.speedItem);
-		checkOption(config, "Boot_ItemNumber", plugin.bootItem);
-		checkOption(config, "Leg_ItemNumber", plugin.legItem);
-		checkOption(config, "Chest_ItemNumber", plugin.chestItem);
-		checkOption(config, "Head_ItemNumber", plugin.helmItem);
+        checkOption(config, "Max_Mod_Speed", plugin.maxSpeed);
+        checkOption(config, "Max_Admin_Speed", plugin.maxAdminSpeed);
+        checkOption(config, "Max_SetOther_Speed", plugin.maxOtherSpeed);
+        checkOption(config, "Max_SetWorld_Speed", plugin.maxWorldSpeed);
+        checkOption(config, "Speed_ItemNumber", plugin.speedItem);
+        checkOption(config, "Boot_ItemNumber", plugin.bootItem);
+        checkOption(config, "Leg_ItemNumber", plugin.legItem);
+        checkOption(config, "Chest_ItemNumber", plugin.chestItem);
+        checkOption(config, "Head_ItemNumber", plugin.helmItem);
             
         //Booleans
-		checkOption(config, "DefSpeed", plugin.defaSpeed);
-		checkOption(config, "Sneak_Enabled", plugin.sneakAble);
+        checkOption(config, "DefSpeed", plugin.defaSpeed);
+        checkOption(config, "Sneak_Enabled", plugin.sneakAble);
             
         //Doubles
-		checkOption(config, "Default_Speed", plugin.defSpeed);
+        checkOption(config, "Default_Speed", plugin.defSpeed);
 
         if (hasChanged) {
-		    configO.header("SetSpeed  Configuration File, Enjoy!!");
+            configO.header("SetSpeed  Configuration File, Enjoy!!");
 
             System.out.println("[" + plugin.pdfFile.getName() + "]" + " config.yml has been updated.");
 
@@ -60,8 +60,8 @@ public class SSConfigListener {
         }
     }
 
-	
-	public void readConfig() {
+
+    public void readConfig() {
         YamlConfiguration config = plugin.config;
 
         //Strings
@@ -94,7 +94,7 @@ public class SSConfigListener {
             
         //Doubles
         plugin.defSpeed = config.getDouble("Default_Speed", plugin.defSpeed);
-	}
+    }
 
     protected void checkOption(YamlConfiguration config, String option, Object defValue) {
         if (!config.isSet(option)) {

@@ -15,25 +15,25 @@ public class SSCustomListener extends InventoryListener {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();
-    	Double pSpeed = plugin.players.get(pName);
+        Double pSpeed = plugin.players.get(pName);
 
-    	if (plugin.isSpeedOn.get(pName) == null)
-			plugin.isSpeedOn.put(pName, false);
+        if (plugin.isSpeedOn.get(pName) == null)
+            plugin.isSpeedOn.put(pName, false);
 
         if (pSpeed == null)
             plugin.players.put(pName, 1.0);
 
         if (!plugin.isSpeedOn.get(pName)) {
-    	    if (pSpeed != 1) {
-    		    if ((player.getInventory().getBoots().getTypeId() == (plugin.bootItem)) ||
-    				(player.getInventory().getLeggings().getTypeId() == (plugin.legItem)) ||
-    				(player.getInventory().getChestplate().getTypeId() == (plugin.chestItem)) ||
-    				(player.getInventory().getHelmet().getTypeId() == (plugin.helmItem))) {
-    				player.performCommand("speedon");
+            if (pSpeed != 1) {
+                if ((player.getInventory().getBoots().getTypeId() == (plugin.bootItem)) ||
+                    (player.getInventory().getLeggings().getTypeId() == (plugin.legItem)) ||
+                    (player.getInventory().getChestplate().getTypeId() == (plugin.chestItem)) ||
+                    (player.getInventory().getHelmet().getTypeId() == (plugin.helmItem))) {
+                    player.performCommand("speedon");
                     player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.speedOn) + ".");
-    				plugin.isSpeedOn.put(pName, true);
-    			}
+                    plugin.isSpeedOn.put(pName, true);
+                }
             }
-    	}
+        }
     }
 }
