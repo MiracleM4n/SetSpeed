@@ -23,8 +23,8 @@ public class SSCustomListener extends InventoryListener {
         if (pSpeed == null)
             plugin.players.put(pName, 1.0);
 
-        if (!plugin.isSpeedOn.get(pName)) {
-            if (pSpeed != 1) {
+        if (!plugin.isSpeedOn.get(pName))
+            if (pSpeed != 1)
                 if ((player.getInventory().getBoots().getTypeId() == (plugin.bootItem)) ||
                     (player.getInventory().getLeggings().getTypeId() == (plugin.legItem)) ||
                     (player.getInventory().getChestplate().getTypeId() == (plugin.chestItem)) ||
@@ -33,7 +33,5 @@ public class SSCustomListener extends InventoryListener {
                     player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.speedOn) + ".");
                     plugin.isSpeedOn.put(pName, true);
                 }
-            }
-        }
     }
 }

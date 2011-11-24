@@ -22,23 +22,17 @@ public class SSPlayerListener extends PlayerListener {
         Action action = event.getAction();
         Double pSpeed = plugin.players.get(pName);
 
-        if (pSpeed != 1) {
-            if (plugin.isSpeedOn.get(pName)) {
-                if (((action == Action.LEFT_CLICK_AIR) ||
+        if (pSpeed != 1)
+            if (((action == Action.LEFT_CLICK_AIR) ||
                         (action == Action.LEFT_CLICK_BLOCK)) &&
-                        (player.getItemInHand().getTypeId() == (plugin.speedItem))) {
+                        (player.getItemInHand().getTypeId() == (plugin.speedItem)))
+                if (plugin.isSpeedOn.get(pName)) {
                     player.performCommand("speedoff");
                     player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOff) + ".");
+                } else {
+                    player.performCommand("speedon");
+                    player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOn) + ".");
                 }
-            } else if (!plugin.isSpeedOn.get(pName)) {
-                if (((action == Action.LEFT_CLICK_AIR) ||
-                    (action == Action.LEFT_CLICK_BLOCK)) &&
-                    (player.getItemInHand().getTypeId() == (plugin.speedItem))) {
-                player.performCommand("speedon");
-                player.sendMessage(ChatColor.RED + "[SetSpeed] " + (plugin.speedOn) + ".");
-                }
-            }
-        }
     }
 
     public void onPlayerRespawn(PlayerRespawnEvent event) {
@@ -70,10 +64,8 @@ public class SSPlayerListener extends PlayerListener {
         plugin.players.put(pName, (double)1);
         plugin.isSpeedOn.put(pName, false);
 
-        for (int i = 0; i < 501; i++) {
-            if (plugin.checkPermissions(player, ("setspeed.perm." + i), true)) {
+        for (int i = 0; i < 501; i++)
+            if (plugin.checkPermissions(player, ("setspeed.perm." + i), true))
                 plugin.cExecutor.setPlayersSpeed(player,(double)(i), true);
-            }
-        }
     }
 }

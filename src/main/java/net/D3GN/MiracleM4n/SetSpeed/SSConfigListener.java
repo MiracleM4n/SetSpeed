@@ -14,7 +14,7 @@ public class SSConfigListener {
 
     Boolean hasChanged = false;
 
-    public void checkConfig() {
+    void checkConfig() {
         YamlConfiguration config = plugin.config;
         YamlConfigurationOptions configO = config.options();
 
@@ -61,7 +61,7 @@ public class SSConfigListener {
     }
 
 
-    public void readConfig() {
+    void readConfig() {
         YamlConfiguration config = plugin.config;
 
         //Strings
@@ -96,7 +96,7 @@ public class SSConfigListener {
         plugin.defSpeed = config.getDouble("Default_Speed", plugin.defSpeed);
     }
 
-    protected void checkOption(YamlConfiguration config, String option, Object defValue) {
+    void checkOption(YamlConfiguration config, String option, Object defValue) {
         if (!config.isSet(option)) {
             config.set(option, defValue);
             hasChanged = true;

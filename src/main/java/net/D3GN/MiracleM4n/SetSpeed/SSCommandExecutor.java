@@ -111,11 +111,11 @@ public class SSCommandExecutor implements CommandExecutor {
         return true;
     }
 
-    protected void checkSpeedVars(Player player, double speed, double maxSpeed) {
+    void checkSpeedVars(Player player, double speed, double maxSpeed) {
         checkSpeedVars(player, player, speed, maxSpeed);
     }
 
-    protected void checkSpeedVars(Player player, Player target, double speed, double maxSpeed) {
+    void checkSpeedVars(Player player, Player target, double speed, double maxSpeed) {
         String tName = target.getName();
         Double tValue = plugin.players.get(tName);
         if (target == null)
@@ -153,7 +153,7 @@ public class SSCommandExecutor implements CommandExecutor {
             player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.unKnown) + ".");
     }
 
-    protected void checkWorldSpeedVars(Player player, World tWorld, double speed, double maxSpeed, Boolean allWorlds) {
+    void checkWorldSpeedVars(Player player, World tWorld, double speed, double maxSpeed, Boolean allWorlds) {
         if (speed == 1) {
             if (allWorlds) {
                 for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
@@ -206,7 +206,7 @@ public class SSCommandExecutor implements CommandExecutor {
             player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.unKnown) + ".");
     }
 
-    protected void setPlayersSpeed(Player player, double speed, Boolean flyCheck) {
+    void setPlayersSpeed(Player player, double speed, Boolean flyCheck) {
         SpoutPlayer sPlayer = (SpoutPlayer)player;
         sPlayer.setWalkingMultiplier(speed);
         sPlayer.setSwimmingMultiplier(speed);

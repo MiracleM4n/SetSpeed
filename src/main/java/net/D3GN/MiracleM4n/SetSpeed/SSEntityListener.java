@@ -14,23 +14,27 @@ public class SSEntityListener extends EntityListener {
     }
     
     public void onEntityDamage(EntityDamageEvent event) {
-        Entity attacker = null;
-        if (event instanceof EntityDamageByEntityEvent) {
-                EntityDamageByEntityEvent subEvent = (EntityDamageByEntityEvent) event;
-                attacker = subEvent.getDamager();
-        }
-        if (!(event.getEntity() instanceof Player)) return;
-        if (attacker instanceof Entity) return;
+        if (!(event instanceof EntityDamageByEntityEvent))
+            return;
+
+        EntityDamageByEntityEvent subEvent = (EntityDamageByEntityEvent) event;
+        Entity attacker = subEvent.getDamager();
+
+        if (!(event.getEntity() instanceof Player))
+            return;
+
+        if (attacker instanceof Entity)
+            return;
+
         Player player = (Player) event.getEntity();
         String pName = player.getName();
-        if (plugin.isSpeedOn.get(pName)) {
-            if(plugin.players.get(pName) >= 2) {
+
+        if (plugin.isSpeedOn.get(pName))
+            if(plugin.players.get(pName) >= 2)
                 event.setCancelled(true);
-            }
-        } else if (player.isSneaking()) {
-            if(plugin.players.get(pName) >= 2) {
+
+        else if (player.isSneaking())
+            if(plugin.players.get(pName) >= 2)
                 event.setCancelled(true);
-            }
-        }
     }
 }
