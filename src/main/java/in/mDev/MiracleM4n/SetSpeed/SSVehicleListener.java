@@ -1,4 +1,4 @@
-package net.D3GN.MiracleM4n.SetSpeed;
+package in.mDev.MiracleM4n.SetSpeed;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.vehicle.VehicleExitEvent;

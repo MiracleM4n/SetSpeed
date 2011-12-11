@@ -1,4 +1,4 @@
-package net.D3GN.MiracleM4n.SetSpeed;
+package in.mDev.MiracleM4n.SetSpeed;
 
 import java.io.File;
 import java.util.HashMap;
