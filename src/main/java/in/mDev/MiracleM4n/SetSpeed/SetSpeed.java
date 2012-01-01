@@ -156,13 +156,13 @@ public class SetSpeed extends JavaPlugin {
     }
 
     protected Boolean getSpout() {
-        Plugin permTest = pm.getPlugin("Spout");
+        Plugin permTest = pm.getPlugin("SpoutPlugin");
 
         if (permTest != null) {
-            System.out.println("[" + pdfFile.getName() + "] Spout " + (permTest.getDescription().getVersion()) + " found hooking in.");
+            System.out.println("[" + pdfFile.getName() + "] SpoutPlugin " + (permTest.getDescription().getVersion()) + " found hooking in.");
             return true;
         } else {
-            System.out.println("[" + pdfFile.getName() + "] Spout not found Disabling SetSpeed.");
+            System.out.println("[" + pdfFile.getName() + "] SpoutPlugin not found Disabling SetSpeed.");
             return false;
         }
     }
