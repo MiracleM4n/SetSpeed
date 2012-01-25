@@ -2,16 +2,18 @@ package in.mDev.MiracleM4n.SetSpeed;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.getspout.spoutapi.event.inventory.InventoryClickEvent;
-import org.getspout.spoutapi.event.inventory.InventoryListener;
 
-public class SSCustomListener extends InventoryListener {
+public class SSCustomListener implements Listener {
     SetSpeed plugin;
 
     public SSCustomListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
 
+    @EventHandler(event = InventoryClickEvent.class)
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();

@@ -5,16 +5,10 @@ import java.util.HashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.nijiko.permissions.PermissionHandler;
-import com.nijikokun.bukkit.Permissions.Permissions;
-
-import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 
 public class SetSpeed extends JavaPlugin {
     PluginManager pm;
@@ -26,14 +20,6 @@ public class SetSpeed extends JavaPlugin {
     SSConfigListener cListener = null;
     SSVehicleListener vListener = null;
     SSCustomListener cUListener = null;
-
-    // Permissions
-    PermissionHandler permissions;
-    Boolean permissionsB = false;
-
-    // GroupManager
-    AnjoPermissionsHandler gmPermissions;
-    Boolean gmPermissionsB = false;
 
     // Configs
     YamlConfiguration config = null;
@@ -96,19 +82,14 @@ public class SetSpeed extends JavaPlugin {
             vListener = new SSVehicleListener(this);
             cUListener = new SSCustomListener(this);
 
-            pm.registerEvent(Event.Type.PLAYER_INTERACT, pListener, Event.Priority.Highest, this);
-            pm.registerEvent(Event.Type.PLAYER_RESPAWN, pListener, Event.Priority.Highest, this);
-            pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Event.Priority.Highest, this);
-            pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Event.Priority.Highest, this);
-            pm.registerEvent(Event.Type.VEHICLE_EXIT, pListener, Event.Priority.Highest, this);
-            pm.registerEvent(Event.Type.ENTITY_DAMAGE, eListener, Event.Priority.Highest, this);
-            pm.registerEvent(Event.Type.CUSTOM_EVENT, cUListener, Event.Priority.Highest, this);
+            pm.registerEvents(pListener, this);
+            pm.registerEvents(eListener, this);
+            pm.registerEvents(cUListener, this);
+            pm.registerEvents(vListener, this);
 
             getCommand("setspeed").setExecutor(cExecutor);
             getCommand("speedoff").setExecutor(cExecutor);
             getCommand("speedon").setExecutor(cExecutor);
-
-            setupPermissions();
 
             System.out.println("[" + (pdfFile.getName()) + "]" + " version " +
                 pdfFile.getVersion() + " is enabled!");
@@ -130,31 +111,6 @@ public class SetSpeed extends JavaPlugin {
                 pdfFile.getVersion() + " is disabled!");
     }
 
-    void setupPermissions() {
-        Plugin permTest = pm.getPlugin("Permissions");
-
-        if(permTest != null) {
-            permissions = ((Permissions) permTest).getHandler();
-            permissionsB = true;
-            System.out.println("[" + pdfFile.getName() + "] Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
-        } else {
-            permissionsB = false;
-            setupGroupManager();
-        }
-    }
-
-    void setupGroupManager() {
-        Plugin permTest = pm.getPlugin("GroupManager");
-
-        if (permTest != null) {
-            gmPermissionsB = true;
-            System.out.println("[" + pdfFile.getName() + "] GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
-        } else {
-            gmPermissionsB = false;
-            System.out.println("[" + pdfFile.getName() + "] No Legacy Permissions plugins were found defaulting to permissions.yml/SuperPerms.");
-        }
-    }
-
     protected Boolean getSpout() {
         Plugin permTest = pm.getPlugin("SpoutPlugin");
 
@@ -168,14 +124,6 @@ public class SetSpeed extends JavaPlugin {
     }
 
     public Boolean checkPermissions(Player player, String node, Boolean useOp) {
-        if (permissionsB)
-            if (permissions.has(player, node))
-                return true;
-
-        if (gmPermissionsB)
-            if (gmPermissions.has(player, node))
-                return true;
-
         if (useOp)
             if (player.isOp())
                 return true;

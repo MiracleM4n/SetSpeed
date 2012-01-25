@@ -2,20 +2,22 @@ package in.mDev.MiracleM4n.SetSpeed;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-public class SSPlayerListener extends PlayerListener {
+public class SSPlayerListener implements Listener {
     SetSpeed plugin;
 
     public SSPlayerListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
-    
+
+    @EventHandler(event = PlayerInteractEvent.class)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();
@@ -35,6 +37,7 @@ public class SSPlayerListener extends PlayerListener {
                 }
     }
 
+    @EventHandler(event = PlayerRespawnEvent.class)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();
@@ -46,6 +49,7 @@ public class SSPlayerListener extends PlayerListener {
         }
     }
 
+    @EventHandler(event = PlayerQuitEvent.class)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();
@@ -57,6 +61,7 @@ public class SSPlayerListener extends PlayerListener {
         }
     }
 
+    @EventHandler(event = PlayerJoinEvent.class)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();

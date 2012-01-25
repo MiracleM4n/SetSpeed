@@ -2,17 +2,19 @@ package in.mDev.MiracleM4n.SetSpeed;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityListener;
 
-public class SSEntityListener extends EntityListener {
+public class SSEntityListener implements Listener {
     SetSpeed plugin;
 
     public SSEntityListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
-    
+
+    @EventHandler(event = EntityDamageEvent.class)
     public void onEntityDamage(EntityDamageEvent event) {
         if (!(event instanceof EntityDamageByEntityEvent))
             return;

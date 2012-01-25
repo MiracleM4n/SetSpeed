@@ -1,16 +1,18 @@
 package in.mDev.MiracleM4n.SetSpeed;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleExitEvent;
-import org.bukkit.event.vehicle.VehicleListener;
 
-public class SSVehicleListener extends VehicleListener {
+public class SSVehicleListener implements Listener {
     SetSpeed plugin;
 
     public SSVehicleListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
 
+    @EventHandler(event = VehicleExitEvent.class)
     public void onVehicleExit(VehicleExitEvent event) {
         Player player = (Player) event.getExited();
 
