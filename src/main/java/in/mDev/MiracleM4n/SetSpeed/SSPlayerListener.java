@@ -17,7 +17,7 @@ public class SSPlayerListener implements Listener {
         plugin = callbackPlugin;
     }
 
-    @EventHandler(event = PlayerInteractEvent.class)
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();
@@ -37,7 +37,7 @@ public class SSPlayerListener implements Listener {
                 }
     }
 
-    @EventHandler(event = PlayerRespawnEvent.class)
+    @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();
@@ -49,7 +49,7 @@ public class SSPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(event = PlayerQuitEvent.class)
+    @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();
@@ -61,7 +61,7 @@ public class SSPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(event = PlayerJoinEvent.class)
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();

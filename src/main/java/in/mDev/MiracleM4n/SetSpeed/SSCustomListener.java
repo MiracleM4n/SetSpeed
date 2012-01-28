@@ -13,7 +13,7 @@ public class SSCustomListener implements Listener {
         plugin = callbackPlugin;
     }
 
-    @EventHandler(event = InventoryClickEvent.class)
+    @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = event.getPlayer();
         String pName = player.getName();

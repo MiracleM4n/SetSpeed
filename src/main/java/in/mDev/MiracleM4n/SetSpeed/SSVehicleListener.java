@@ -12,7 +12,7 @@ public class SSVehicleListener implements Listener {
         plugin = callbackPlugin;
     }
 
-    @EventHandler(event = VehicleExitEvent.class)
+    @EventHandler
     public void onVehicleExit(VehicleExitEvent event) {
         Player player = (Player) event.getExited();
 
