@@ -18,6 +18,6 @@ public class SSVehicleListener implements Listener {
 
         for(int i = 0; i < 501; i++)
             if (plugin.checkPermissions(player, ("setspeed.perm." + i), true))
-                plugin.cExecutor.setPlayersSpeed(player, (double)(i), true);
+                new SSCommandExecutor(plugin).setPlayersSpeed(player, (double)(i), true);
     }
 }
