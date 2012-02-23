@@ -14,13 +14,6 @@ public class SetSpeed extends JavaPlugin {
     PluginManager pm;
     PluginDescriptionFile pdfFile;
 
-    SSPlayerListener pListener = null;
-    SSEntityListener eListener = null;
-    SSCommandExecutor cExecutor = null;
-    SSConfigListener cListener = null;
-    SSVehicleListener vListener = null;
-    SSCustomListener cUListener = null;
-
     // Configs
     YamlConfiguration config = null;
     File configF = null;
@@ -75,27 +68,19 @@ public class SetSpeed extends JavaPlugin {
         config = YamlConfiguration.loadConfiguration(configF);
 
         if (getSpout()) {
-            pListener = new SSPlayerListener(this);
-            eListener = new SSEntityListener(this);
-            cExecutor = new SSCommandExecutor(this);
-            cListener = new SSConfigListener(this);
-            vListener = new SSVehicleListener(this);
-            cUListener = new SSCustomListener(this);
+            pm.registerEvents(new SSPlayerListener(this), this);
+            pm.registerEvents(new SSEntityListener(this), this);
+            pm.registerEvents(new SSCustomListener(this), this);
+            pm.registerEvents(new SSVehicleListener(this), this);
 
-            pm.registerEvents(pListener, this);
-            pm.registerEvents(eListener, this);
-            pm.registerEvents(cUListener, this);
-            pm.registerEvents(vListener, this);
+            getCommand("setspeed").setExecutor(new SSCommandExecutor(this));
+            getCommand("speedoff").setExecutor(new SSCommandExecutor(this));
+            getCommand("speedon").setExecutor(new SSCommandExecutor(this));
 
-            getCommand("setspeed").setExecutor(cExecutor);
-            getCommand("speedoff").setExecutor(cExecutor);
-            getCommand("speedon").setExecutor(cExecutor);
+            System.out.println("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is enabled!");
 
-            System.out.println("[" + (pdfFile.getName()) + "]" + " version " +
-                pdfFile.getVersion() + " is enabled!");
-
-            cListener.checkConfig();
-            cListener.readConfig();
+            new SSConfigListener(this).checkConfig();
+            new SSConfigListener(this).readConfig();
 
             for (Player player : getServer().getOnlinePlayers()) {
                 players.put(player.getName(), 1.0);
@@ -107,8 +92,7 @@ public class SetSpeed extends JavaPlugin {
     }
     public void onDisable() {
         PluginDescriptionFile pdfFile = getDescription();
-        System.out.println("[" + (pdfFile.getName()) + "]" + " version " +
-                pdfFile.getVersion() + " is disabled!");
+        System.out.println("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is disabled!");
     }
 
     protected Boolean getSpout() {
