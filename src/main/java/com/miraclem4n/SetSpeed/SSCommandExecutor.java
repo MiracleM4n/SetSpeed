@@ -1,4 +1,4 @@
-package in.mDev.MiracleM4n.SetSpeed;
+package com.miraclem4n.setspeed;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;

@@ -1,5 +1,5 @@
 name: SetSpeed
-main: in.mDev.MiracleM4n.SetSpeed.SetSpeed
+main: com.miraclem4n.setspeed.SetSpeed
 version: ${m.version}-${build.number}-${p.version}
 website: 
 author: MiracleM4n
