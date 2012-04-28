@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">    <modelVersion>4.0.0</modelVersion>
     <groupId>com.miraclem4n</groupId>
     <artifactId>SetSpeed</artifactId>
-    <version>dev-SNAPSHOT</version>
+    <version>${m.version}-${p.version}</version>
     <name>SetSpeed</name>
     <url>http://mDev.in/</url>
 
@@ -9,7 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <build.number>Unknown</build.number>
         <m.version>1.2.5</m.version>
-        <p.version>R1</p.version>
+        <p.version>R1_1</p.version>
     </properties>
 
     <repositories>
