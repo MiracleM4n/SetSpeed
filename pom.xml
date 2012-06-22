@@ -9,7 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <build.number>Unknown</build.number>
         <m.version>1.2.5</m.version>
-        <p.version>R1_1</p.version>
+        <p.version>R2</p.version>
     </properties>
 
     <repositories>
@@ -24,7 +24,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>cward-repo</id>
+            <id>mdev-repo</id>
             <url>http://repo.mdev.in</url>
             <releases>
                 <updatePolicy>always</updatePolicy>
@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.2.5-R1.0</version>
+            <version>1.2.5-R4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
