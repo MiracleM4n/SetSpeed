@@ -1,5 +1,7 @@
-package com.miraclem4n.setspeed;
+package com.miraclem4n.setspeed.commands;
 
+import com.miraclem4n.setspeed.SetSpeed;
+import com.miraclem4n.setspeed.util.MiscUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -97,13 +99,13 @@ public class SSCommandExecutor implements CommandExecutor {
         } else if (cmd.equalsIgnoreCase("speedoff")) {
             if (plugin.isSpeedOn.get(pName)) {
                 plugin.isSpeedOn.put(pName, false);
-                setPlayersSpeed(player, 1, false);
+                MiscUtil.setPlayersSpeed(player, 1, false);
                 return true;
             }
         } else if (cmd.equalsIgnoreCase("speedon")) {
             if (pSpeed != null) {
                 plugin.isSpeedOn.put(pName, true);
-                setPlayersSpeed(player, pSpeed, true);
+                MiscUtil.setPlayersSpeed(player, pSpeed, true);
                 return true;
             }
         }
@@ -125,7 +127,7 @@ public class SSCommandExecutor implements CommandExecutor {
             if (tValue != 1) {
                 plugin.speed = 1;
                 plugin.players.put(tName, plugin.speed);
-                setPlayersSpeed(target, tValue, true);
+                MiscUtil.setPlayersSpeed(target, tValue, true);
                 player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + ".");
             }
             return;
@@ -139,7 +141,7 @@ public class SSCommandExecutor implements CommandExecutor {
             player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.negativeInteger) + ".");
         else if (speed <= maxSpeed) {
             plugin.players.put(tName, plugin.speed);
-            setPlayersSpeed(target, tValue, true);
+            MiscUtil.setPlayersSpeed(target, tValue, true);
             target.performCommand("speedon");
 
             if (target != player) {
@@ -159,14 +161,14 @@ public class SSCommandExecutor implements CommandExecutor {
                 for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
                     String pLName = playerList.getName();
                     plugin.players.put(pLName, plugin.speed);
-                    setPlayersSpeed(playerList, plugin.players.get(pLName), true);
+                    MiscUtil.setPlayersSpeed(playerList, plugin.players.get(pLName), true);
                 }
                 plugin.getServer().broadcastMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + ".");
             } else if (tWorld != null) {
                 for (Player playerList : tWorld.getPlayers()) {
                     String pLName = playerList.getName();
                     plugin.players.put(pLName, plugin.speed);
-                    setPlayersSpeed(playerList, plugin.players.get(pLName), true);
+                    MiscUtil.setPlayersSpeed(playerList, plugin.players.get(pLName), true);
                     playerList.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + ".");
                 }
                 player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + plugin.speedReset + " in " + tWorld.getName() + ".");
@@ -185,7 +187,7 @@ public class SSCommandExecutor implements CommandExecutor {
                 for(Player playerList : (plugin.getServer().getOnlinePlayers())) {
                     String pLName = playerList.getName();
                     plugin.players.put(pLName, plugin.speed);
-                    setPlayersSpeed(playerList, plugin.players.get(pLName), true);
+                    MiscUtil.setPlayersSpeed(playerList, plugin.players.get(pLName), true);
                     playerList.performCommand("speedon");
                 }
                 plugin.getServer().broadcastMessage(ChatColor.DARK_RED + "[SetSpeed] Speed Set To " + plugin.speed + " For All Players On The Server.");
@@ -193,7 +195,7 @@ public class SSCommandExecutor implements CommandExecutor {
                 for (Player playerList : tWorld.getPlayers()) {
                     String pLName = playerList.getName();
                     plugin.players.put(pLName, plugin.speed);
-                    setPlayersSpeed(playerList, plugin.players.get(pLName), true);
+                    MiscUtil.setPlayersSpeed(playerList, plugin.players.get(pLName), true);
                     playerList.performCommand("speedon");
                     playerList.sendMessage(ChatColor.DARK_RED + "[SetSpeed] Speed Set To " + plugin.speed + " For All Players In Your World.");
                 }
@@ -204,15 +206,6 @@ public class SSCommandExecutor implements CommandExecutor {
             player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.tooHigh) + ".");
         else
             player.sendMessage(ChatColor.DARK_RED + "[SetSpeed] " + (plugin.unKnown) + ".");
-    }
-
-    void setPlayersSpeed(Player player, double speed, Boolean flyCheck) {
-        SpoutPlayer sPlayer = (SpoutPlayer)player;
-        sPlayer.setWalkingMultiplier(speed);
-        sPlayer.setSwimmingMultiplier(speed);
-        //sPlayer.setGravityMultiplier(1/speed*9);
-        sPlayer.setAirSpeedMultiplier(speed);
-        sPlayer.setCanFly(flyCheck);
     }
 }
 

@@ -1,5 +1,7 @@
-package com.miraclem4n.setspeed;
+package com.miraclem4n.setspeed.listeners;
 
+import com.miraclem4n.setspeed.SetSpeed;
+import com.miraclem4n.setspeed.util.MiscUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -71,6 +73,6 @@ public class SSPlayerListener implements Listener {
 
         for (int i = 0; i < 501; i++)
             if (plugin.checkPermissions(player, ("setspeed.perm." + i), true))
-                new SSCommandExecutor(plugin).setPlayersSpeed(player,(double)(i), true);
+                MiscUtil.setPlayersSpeed(player,(double)(i), true);
     }
 }

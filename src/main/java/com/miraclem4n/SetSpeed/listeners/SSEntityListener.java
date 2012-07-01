@@ -1,5 +1,6 @@
-package com.miraclem4n.setspeed;
+package com.miraclem4n.setspeed.listeners;
 
+import com.miraclem4n.setspeed.SetSpeed;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

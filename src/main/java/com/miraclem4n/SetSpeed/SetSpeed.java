@@ -3,6 +3,12 @@ package com.miraclem4n.setspeed;
 import java.io.File;
 import java.util.HashMap;
 
+import com.miraclem4n.setspeed.commands.SSCommandExecutor;
+import com.miraclem4n.setspeed.configs.SSConfigListener;
+import com.miraclem4n.setspeed.listeners.SSCustomListener;
+import com.miraclem4n.setspeed.listeners.SSEntityListener;
+import com.miraclem4n.setspeed.listeners.SSPlayerListener;
+import com.miraclem4n.setspeed.listeners.SSVehicleListener;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -11,54 +17,54 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SetSpeed extends JavaPlugin {
-    PluginManager pm;
-    PluginDescriptionFile pdfFile;
+    public PluginManager pm;
+    public PluginDescriptionFile pdfFile;
 
     // Configs
-    YamlConfiguration config = null;
-    File configF = null;
+    public YamlConfiguration config = null;
+    public File configF = null;
 
     // Booleans
-    Boolean defaSpeed = false;
-    Boolean sneakAble = true;
+    public Boolean defaSpeed = false;
+    public Boolean sneakAble = true;
 
     // Doubles
-    Double defSpeed = 1.8;
+    public Double defSpeed = 1.8;
 
-    double speed = 1;
-    double speedPerm = 1;
+    public double speed = 1;
+    public double speedPerm = 1;
 
     // Integers
-    Integer bootItem = 317;
-    Integer legItem = 316;
-    Integer chestItem = 315;
-    Integer helmItem = 314;
-    Integer speedItem = 50;
-    Integer maxSpeed = 5;
-    Integer maxAdminSpeed = 10;
-    Integer maxOtherSpeed = 10;
-    Integer maxWorldSpeed = 10;
-    Integer noSpeedValue = 0;
-    Integer hardMaxSpeed = 50;
+    public Integer bootItem = 317;
+    public Integer legItem = 316;
+    public Integer chestItem = 315;
+    public Integer helmItem = 314;
+    public Integer speedItem = 50;
+    public Integer maxSpeed = 5;
+    public Integer maxAdminSpeed = 10;
+    public Integer maxOtherSpeed = 10;
+    public Integer maxWorldSpeed = 10;
+    public Integer noSpeedValue = 0;
+    public Integer hardMaxSpeed = 50;
 
     // Strings
-    String notNumber = "That Is Not A Number";
-    String noInteger = "Cant Use 0";
-    String negativeInteger = "Cant Use Negative Values";
-    String tooHigh = "Speed Too High";
-    String unKnown = "Weird... Not Able To Set Speed";
-    String noPermissions = "You Don't Have Permissions To Use This";
-    String speedSetMessage = "Speed Set To";
-    String speedOff = "Speed is off";
-    String speedOn = "Speed is on";
-    String speedReset = "Speed reset";
-    String noSpeedSet = "No Speed value set";
-    String speedSet = ((speedSetMessage) + " " + (int) speed);
-    String speedPermValue = "setspeed." + (speedPerm);
+    public String notNumber = "That Is Not A Number";
+    public String noInteger = "Cant Use 0";
+    public String negativeInteger = "Cant Use Negative Values";
+    public String tooHigh = "Speed Too High";
+    public String unKnown = "Weird... Not Able To Set Speed";
+    public String noPermissions = "You Don't Have Permissions To Use This";
+    public String speedSetMessage = "Speed Set To";
+    public String speedOff = "Speed is off";
+    public String speedOn = "Speed is on";
+    public String speedReset = "Speed reset";
+    public String noSpeedSet = "No Speed value set";
+    public String speedSet = ((speedSetMessage) + " " + (int) speed);
+    public String speedPermValue = "setspeed." + (speedPerm);
 
     // Hashes
-    HashMap<String, Double> players = new HashMap<String, Double>();
-    HashMap<String, Boolean> isSpeedOn = new HashMap<String, Boolean>();
+    public HashMap<String, Double> players = new HashMap<String, Double>();
+    public HashMap<String, Boolean> isSpeedOn = new HashMap<String, Boolean>();
 
     public void onEnable() {
         pdfFile = getDescription();
@@ -96,7 +102,7 @@ public class SetSpeed extends JavaPlugin {
     }
 
     protected Boolean getSpout() {
-        Plugin permTest = pm.getPlugin("SpoutPlugin");
+        Plugin permTest = pm.getPlugin("Spout");
 
         if (permTest != null) {
             System.out.println("[" + pdfFile.getName() + "] SpoutPlugin " + (permTest.getDescription().getVersion()) + " found hooking in.");
