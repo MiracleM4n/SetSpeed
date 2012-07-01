@@ -7,10 +7,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 
-public class SSVehicleListener implements Listener {
+public class VehicleListener implements Listener {
     SetSpeed plugin;
 
-    public SSVehicleListener(SetSpeed callbackPlugin) {
+    public VehicleListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
 

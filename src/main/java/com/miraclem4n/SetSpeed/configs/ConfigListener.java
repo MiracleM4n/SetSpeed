@@ -6,10 +6,10 @@ import com.miraclem4n.setspeed.SetSpeed;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.file.YamlConfigurationOptions;
 
-public class SSConfigListener {
+public class ConfigListener {
     SetSpeed plugin;
 
-    public SSConfigListener(SetSpeed  plugin) {
+    public ConfigListener(SetSpeed plugin) {
         this.plugin = plugin;
     }
 

@@ -11,10 +11,10 @@ import org.bukkit.entity.Player;
 
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-public class SSCommandExecutor implements CommandExecutor {
+public class SetSpeedCommand implements org.bukkit.command.CommandExecutor {
     SetSpeed plugin;
 
-    public SSCommandExecutor(SetSpeed callbackPlugin) {
+    public SetSpeedCommand(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
 

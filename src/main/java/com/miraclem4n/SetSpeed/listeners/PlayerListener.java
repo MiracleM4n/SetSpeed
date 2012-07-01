@@ -12,10 +12,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-public class SSPlayerListener implements Listener {
+public class PlayerListener implements Listener {
     SetSpeed plugin;
 
-    public SSPlayerListener(SetSpeed callbackPlugin) {
+    public PlayerListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
 

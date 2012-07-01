@@ -7,10 +7,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.getspout.spoutapi.event.inventory.InventoryClickEvent;
 
-public class SSCustomListener implements Listener {
+public class CustomListener implements Listener {
     SetSpeed plugin;
 
-    public SSCustomListener(SetSpeed callbackPlugin) {
+    public CustomListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
 

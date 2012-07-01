@@ -8,10 +8,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class SSEntityListener implements Listener {
+public class EntityListener implements Listener {
     SetSpeed plugin;
 
-    public SSEntityListener(SetSpeed callbackPlugin) {
+    public EntityListener(SetSpeed callbackPlugin) {
         plugin = callbackPlugin;
     }
 

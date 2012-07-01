@@ -3,12 +3,12 @@ package com.miraclem4n.setspeed;
 import java.io.File;
 import java.util.HashMap;
 
-import com.miraclem4n.setspeed.commands.SSCommandExecutor;
-import com.miraclem4n.setspeed.configs.SSConfigListener;
-import com.miraclem4n.setspeed.listeners.SSCustomListener;
-import com.miraclem4n.setspeed.listeners.SSEntityListener;
-import com.miraclem4n.setspeed.listeners.SSPlayerListener;
-import com.miraclem4n.setspeed.listeners.SSVehicleListener;
+import com.miraclem4n.setspeed.commands.SetSpeedCommand;
+import com.miraclem4n.setspeed.configs.ConfigListener;
+import com.miraclem4n.setspeed.listeners.CustomListener;
+import com.miraclem4n.setspeed.listeners.EntityListener;
+import com.miraclem4n.setspeed.listeners.PlayerListener;
+import com.miraclem4n.setspeed.listeners.VehicleListener;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -74,19 +74,19 @@ public class SetSpeed extends JavaPlugin {
         config = YamlConfiguration.loadConfiguration(configF);
 
         if (getSpout()) {
-            pm.registerEvents(new SSPlayerListener(this), this);
-            pm.registerEvents(new SSEntityListener(this), this);
-            pm.registerEvents(new SSCustomListener(this), this);
-            pm.registerEvents(new SSVehicleListener(this), this);
+            pm.registerEvents(new PlayerListener(this), this);
+            pm.registerEvents(new EntityListener(this), this);
+            pm.registerEvents(new CustomListener(this), this);
+            pm.registerEvents(new VehicleListener(this), this);
 
-            getCommand("setspeed").setExecutor(new SSCommandExecutor(this));
-            getCommand("speedoff").setExecutor(new SSCommandExecutor(this));
-            getCommand("speedon").setExecutor(new SSCommandExecutor(this));
+            getCommand("setspeed").setExecutor(new SetSpeedCommand(this));
+            getCommand("speedoff").setExecutor(new SetSpeedCommand(this));
+            getCommand("speedon").setExecutor(new SetSpeedCommand(this));
 
             System.out.println("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is enabled!");
 
-            new SSConfigListener(this).checkConfig();
-            new SSConfigListener(this).readConfig();
+            new ConfigListener(this).checkConfig();
+            new ConfigListener(this).readConfig();
 
             for (Player player : getServer().getOnlinePlayers()) {
                 players.put(player.getName(), 1.0);
